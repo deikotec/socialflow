@@ -70,25 +70,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       setCompanies(companiesList);
 
-      if (companiesList.length > 0) {
-        // Use functional update to avoid dependency on currentCompany
-        setCurrentCompany((prev) => {
-          if (prev) return prev;
-          const saved = localStorage.getItem("socialflow_last_company");
-          const found = companiesList.find((c) => c.id === saved);
-          return found || companiesList[0];
-        });
-      }
+      // Update currentCompany with new data if it exists in the new list
+      setCurrentCompany((prev) => {
+        if (!prev) return null;
+        const found = companiesList.find((c) => c.id === prev.id);
+        return found || null;
+      });
     } catch (error) {
       console.error("Error fetching companies:", error);
     }
-  }, []); // Dependencies are empty as db is stable, and we removed internal state deps
+  }, []);
 
   const selectCompany = (companyId: string) => {
     const selected = companies.find((c) => c.id === companyId);
     if (selected) {
       setCurrentCompany(selected);
-      localStorage.setItem("socialflow_last_company", companyId);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("socialflow_last_company", companyId);
+      }
     }
   };
 

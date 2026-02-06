@@ -1,96 +1,122 @@
-# PROYECTO: SocialFlow SaaS (Vercel + Firebase Architecture)
+# PROYECTO: SocialFlow SaaS - Especificación Técnica Completa
 
-## 1. Misión del Proyecto
+## 1. Visión y Alcance
 
-Construir una plataforma SaaS escalable para la gestión, aprobación y programación de contenido en redes sociales.
-**Objetivo Técnico:** Orquestar una arquitectura híbrida donde **Vercel** maneja el Frontend y la Lógica (Server Actions) y **Firebase** maneja la Persistencia y Autenticación.
+Construir una plataforma SaaS B2B "Multi-Tenant" para agencias de marketing.
+**Core Value:** Centralizar la gestión de clientes, automatizar la organización de archivos en Google Drive y programar contenido en Redes Sociales.
+**Arquitectura:** Híbrida (Vercel Frontend/Logic + Firebase Backend/Data).
 
-## 2. Stack Tecnológico (Estricto)
+## 2. Stack Tecnológico (Innegociable)
 
-El agente NO debe desviarse de estas tecnologías:
+- **Framework:** Next.js 15 (App Router, Server Actions).
+- **Lenguaje:** TypeScript (Strict Mode). **Prohibido usar `any`.**
+- **Hosting:** Vercel (Production) / Localhost (Dev).
+- **Auth:** Firebase Auth (Client SDK) + Firebase Admin (Server SDK).
+- **DB:** Firestore (NoSQL).
+- **Storage:**
+  - _Media:_ Google Drive API v3 (Service Account centralizada).
+  - _Assets:_ Firebase Storage.
+- **UI:** TailwindCSS + Shadcn/UI + Lucide Icons.
+- **State:** React Server Components (RSC) para data fetching, React Context para estado de sesión global.
 
-- **Core Framework:** Next.js 15 (App Router).
-- **Lenguaje:** TypeScript (Strict Mode).
-- **Hosting & Edge:** Vercel (Configurado para Serverless Functions).
-- **Base de Datos:** Firebase Firestore (NoSQL).
-- **Autenticación:** Firebase Auth (Client SDK en UI, Admin SDK en Server Actions).
-- **Almacenamiento:**
-  - _Producción:_ Google Drive API v3 (Service Account).
-  - _Assets UI:_ Firebase Storage.
-- **UI Library:** TailwindCSS + Shadcn/UI (Componentes Radix).
-- **Gestión de Estado:** React Context + Server Actions (No Redux/Zustand innecesario).
+## 3. Arquitectura de Directorios (Feature-Based)
 
-## 3. Arquitectura de Directorios (Feature-First)
-
-Evitar la agrupación por tipo de archivo. Agrupar por funcionalidad lógica para escalar.
+Organización modular para facilitar el mantenimiento por IA:
 
 ```text
 /src
   /app
-    /(auth)          # Rutas de login/registro
-    /(dashboard)     # Rutas privadas de la agencia (Layout con Sidebar)
-    /(portal)        # Rutas públicas para clientes (Layout limpio)
-    /api             # Webhooks (Meta/TikTok callbacks)
-  /actions           # Next.js Server Actions (Backend Logic)
+    /(auth)/login          # Login público
+    /(dashboard)/[agencyId]# Rutas privadas (Layout con Sidebar)
+       /clients            # CRUD Clientes
+       /calendar           # Vista Calendario
+       /settings           # Configuración (Conexión APIs)
+    /(portal)/p/[token]    # Vista pública del cliente (Layout limpio)
+  /features                # Lógica de Negocio Agrupada
+    /auth                  # Hooks, componentes de login
+    /drive                 # Lógica de creación de carpetas, subidas
+    /social                # Lógica de conexión con Meta/TikTok
+    /content-item          # Lógica de la tarjeta de contenido/estado
   /lib
-    firebase.ts      # Cliente (Init para Auth)
-    firebase-admin.ts# Servidor (Init para DB/Storage) - SOLO SERVER SIDE
-    drive.ts         # Helper para Google Drive API
-    ai
-        prompts.ts   # System prompts optimizados para Gemini
-  /components
-    /ui              # Primitivos de Shadcn
-    /domain          # Componentes específicos de negocio (ej: VideoCard)
-  /types             # Definiciones de TypeScript (Zod schemas)
+    firebase.ts            # Cliente (Solo Auth)
+    firebase-admin.ts      # Servidor (DB & Auth Admin)
+    google-drive.ts        # Helper class para Drive API
+  /actions                 # Server Actions (Mutaciones seguras)
 
 ```
 
-## 4. Esquema de Datos (Multi-Tenant Firestore)
+## 4. Esquema de Datos (Firestore Schema)
 
-**Modelo de Usuario:**
+El agente debe respetar estrictamente estos nombres de campos y tipos.
 
-- Usuario (Freelancer/Agencia) -> Administra múltiples "Empresas" (Clientes).
-- El Dashboard muestra los datos de la "Empresa Gestionada" seleccionada.
+### `agencies` (Collection Root)
 
-- **`users/{uid}`**
-- Perfil del freelancer/agencia.
-- Campos: `email`, `role`, `owned_agencies` (array de IDs).
+- `id`: string
+- `owner_uid`: string (UID del Firebase Auth)
+- `name`: string
+- `plan`: 'free' | 'pro'
+- `created_at`: timestamp
+- `settings`: { `drive_root_folder_id`: string }
 
-- **`agencies/{agencyId}`** (Representa a la Empresa Gestionada/Cliente)
-- Documento raíz de la organización/cliente.
-- Campos: `name`, `drive_folder_id` (Folder compartido con la Service Account).
+### `agencies/{agencyId}/clients` (Subcollection)
 
-- **`agencies/{agencyId}/content/{contentId}`**
-- La pieza de contenido.
-- Campos: `status`, `script_content`, `video_drive_link`, `assigned_worker_uid`.
+- `id`: string
+- `name`: string
+- `logo_url`: string
+- `drive_folder_id`: string (Carpeta específica de este cliente)
+- `portal_token`: string (UUID para acceso público)
+- `social_accounts`: {
+  `instagram`: { `connected`: boolean, `access_token`: string, `page_id`: string },
+  `tiktok`: { `connected`: boolean, `access_token`: string }
+  }
 
-## 5. Integraciones Críticas (Reglas de Implementación)
+### `agencies/{agencyId}/content` (Subcollection)
 
-1. **Google Drive:**
-   - Cada Cliente/Empresa tiene su propio `drive_folder_id`.
-   - Este folder puede estar en el Drive del Cliente (compartido con nuestra Service Account) o en el Drive de la Agencia.
-   - La App escribe en ese folder usando la Service Account.
-2. **IA (Gemini):**
-   - Uso de System Prompts optimizados almacenados en `src/lib/ai/prompts.ts` para evitar que el usuario deba saber ingeniería de prompts.
-3. **Next.js Server Actions:** NUNCA escribir en Firestore directamente desde el cliente (React components).
-4. **Seguridad:** Middleware en `/src/middleware.ts` para proteger rutas `/dashboard`.
+- `id`: string
+- `client_id`: string (Reference)
+- `title`: string
+- `status`: 'idea' | 'scripting' | 'ready_to_film' | 'filmed' | 'review' | 'approved' | 'scheduled' | 'published'
+- `script_data`: { `hook`: string, `body`: string, `cta`: string }
+- `media`: { `drive_file_id`: string, `download_url`: string, `mime_type`: string }
+- `schedule_date`: timestamp
+- `assigned_user_uid`: string
 
-## 6. Roadmap de Ejecución (Paso a Paso)
+## 5. Reglas de Negocio Críticas (Logic Constraints)
 
-### FASE 1: Cimientos (Infrastructure) [COMPLETADO]
+### A. Seguridad & Multi-Tenancy
 
-### FASE 2: Gestión de Agencia (Core CRUD) [COMPLETADO]
+1. **Middleware:** Toda ruta bajo `/dashboard` debe verificar que el usuario tenga una sesión activa Y que su `uid` pertenezca a la `agencyId` de la URL.
+2. **Server Actions:** Nunca confiar en el cliente. Antes de escribir en Firestore, la Action debe validar `auth().verifyIdToken()` y comprobar permisos.
 
-_Nota: Se requerirá refactorizar el contexto de Auth para soportar selección de "Empresa Gestionada"._
+### B. Integración Google Drive (Service Account)
 
-### FASE 3: Motor de Contenidos (Workflow)
+1. Al registrar una agencia -> Crear carpeta raíz "Agency [Name]".
+2. Al crear un cliente -> Crear subcarpeta dentro de la raíz de la agencia.
+3. La Service Account debe ser "Editor" de la carpeta, pero los archivos deben ser visibles para la App.
 
-1. **Refactor de Contexto:** Permitir cambiar de Agencia/Cliente activo.
-2. **Generación con IA:** Implementar llamada a Gemini con prompts optimizados.
-3. **Vista de Calendario:** Gestión de fechas de publicación.
-4. **Sistema de estados:** Idea -> Guion -> Grabación -> Revisión.
+### C. Flujo de Estados (State Machine)
 
-### FASE 4: Portal del Cliente (Public View)
+El cambio de estado debe ser estricto:
 
-1. Ruta dinámica `/portal/[token]`.
-2. Interfaz simplificada de aprobación (Botones grandes: Aprobar/Rechazar).
+- `idea` -> `scripting` (Al generar con IA).
+- `scripting` -> `ready_to_film` (Al aprobar guion en Portal/Dashboard).
+- `filmed` -> `review` (Al subir video a Drive).
+- `review` -> `approved` (Aprobación Cliente).
+- `approved` -> `scheduled` (Integración con API social).
+
+## 6. Instrucciones de UI/UX
+
+- **Tema:** Dark Mode por defecto (estética "Cyberpunk Professional").
+- **Componentes:** Usar `shadcn` para todo (Tables, Dialogs, Sheets, Forms).
+- **Feedback:** Usar `sonner` (Toast notifications) para cada acción (éxito/error).
+- **Loading:** Usar `Skeleton` loaders mientras cargan los datos de Firestore.
+
+## 7. Plan de Ejecución Secuencial
+
+No intentes hacer todo a la vez. Sigue este orden:
+
+1. **Infra:** Configurar Firebase Admin y Helpers de Drive.
+2. **Auth:** Login y creación de perfil de Agencia.
+3. **Clients:** CRUD de clientes + Creación automática de carpetas Drive.
+4. **Content:** CRUD de ideas + Conexión IA (Gemini).
+5. **Portal:** Vista pública de solo lectura/aprobación.

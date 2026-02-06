@@ -41,7 +41,7 @@ export async function generateContentIdeas(topic: string): Promise<GeneratedIdea
     try {
       const ideas: GeneratedIdea[] = JSON.parse(jsonString);
       return ideas;
-    } catch (parseError) {
+    } catch {
       console.error("Failed to parse AI response as JSON:", text);
       throw new Error("AI response was not valid JSON.");
     }

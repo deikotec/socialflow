@@ -4,7 +4,6 @@ import { adminAuth, adminDb } from "@/lib/firebase-admin";
 import { generateContentIdeas, GeneratedIdea } from "@/lib/ai/gemini";
 import { ContentPiece, ContentStatus } from "@/types";
 import { cookies } from "next/headers";
-import { FieldValue } from "firebase-admin/firestore";
 
 // --- AI Generation ---
 
@@ -36,8 +35,11 @@ export async function createContent(companyId: string, data: Partial<ContentPiec
         .collection("content")
         .doc();
     
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, ...cleanData } = data; // Remove ID if present
+
     const newContent = {
-        ...data,
+        ...cleanData,
         createdAt: new Date(),
         updatedAt: new Date(),
         status: data.status || "idea",
@@ -62,14 +64,18 @@ export async function getContent(companyId: string) {
         .orderBy("createdAt", "desc")
         .get();
     
-    return snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        // Convert Timestamps to Dates if necessary for client serialization
-        createdAt: doc.data().createdAt?.toDate() || null,
-        updatedAt: doc.data().updatedAt?.toDate() || null,
-        scheduledDate: doc.data().scheduledDate?.toDate() || null,
-    }));
+    return snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+            ...data,
+            id: doc.id, // Ensure doc.id overrides any corrupted id field in data
+            // Convert Timestamps to Dates if necessary for client serialization
+            createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt || null,
+            updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt || null,
+            scheduledDate: data.scheduledDate?.toDate ? data.scheduledDate.toDate() : data.scheduledDate || null,
+            recordingDate: data.recordingDate?.toDate ? data.recordingDate.toDate() : data.recordingDate || undefined,
+        } as unknown as ContentPiece;
+    });
 }
 
 export async function updateContentStatus(companyId: string, contentId: string, status: ContentStatus) {
@@ -86,5 +92,25 @@ export async function updateContentStatus(companyId: string, contentId: string, 
             updatedAt: new Date()
         });
     
+    return { success: true };
+}
+
+export async function updateContent(companyId: string, contentId: string, data: Partial<ContentPiece>) {
+    const session = (await cookies()).get("session")?.value;
+    if (!session) throw new Error("Unauthorized");
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, ...cleanData } = data; // Remove ID to prevent overwriting
+
+    await adminDb
+        .collection("companies")
+        .doc(companyId)
+        .collection("content")
+        .doc(contentId)
+        .update({
+            ...cleanData,
+            updatedAt: new Date(),
+        });
+
     return { success: true };
 }

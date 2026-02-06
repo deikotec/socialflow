@@ -19,7 +19,7 @@ const drive = google.drive({ version: "v3", auth });
  */
 export async function createDriveFolder(name: string, parentId?: string) {
   try {
-    const fileMetadata: any = {
+    const fileMetadata: { name: string; mimeType: string; parents?: string[] } = {
       name,
       mimeType: "application/vnd.google-apps.folder",
     };

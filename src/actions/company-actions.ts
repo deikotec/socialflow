@@ -59,8 +59,30 @@ export async function createCompany(data: CompanyData) {
   }
 }
 
-export async function getCompanies() {
-    // This is redundant with specific user query but useful for admin-like fetching if needed
-    // For now we rely on the client-side pulling from `users/{uid}.owned_companies`
-    return [];
+
+
+export async function updateCompany(companyId: string, data: any) {
+  const session = (await cookies()).get("session")?.value;
+  if (!session) throw new Error("Unauthorized");
+
+  try {
+     const decodedToken = await adminAuth.verifySessionCookie(session);
+     const uid = decodedToken.uid;
+
+     // Verify ownership (simple check)
+     const companyRef = adminDb.collection("companies").doc(companyId);
+     const doc = await companyRef.get();
+     
+     if (!doc.exists) throw new Error("Company not found");
+     if (doc.data()?.ownerId !== uid) throw new Error("Not authorized to edit this company");
+
+     // Filter undefined
+     const updateData = JSON.parse(JSON.stringify(data));
+     
+     await companyRef.update(updateData);
+     return { success: true };
+  } catch (error) {
+     console.error("Error updating company:", error);
+     throw new Error("Failed to update company");
+  }
 }
