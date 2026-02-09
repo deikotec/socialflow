@@ -21,6 +21,8 @@ export function TeamForm({ company }: TeamFormProps) {
   const [team, setTeam] = useState<TeamMember[]>(company.team || []);
   const [newName, setNewName] = useState("");
   const [newRole, setNewRole] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPhone, setNewPhone] = useState("");
   const { toast } = useToast();
 
   const handleAdd = () => {
@@ -29,10 +31,14 @@ export function TeamForm({ company }: TeamFormProps) {
       id: crypto.randomUUID(),
       name: newName,
       role: newRole,
+      email: newEmail,
+      phone: newPhone,
     };
     setTeam([...team, newMember]);
     setNewName("");
     setNewRole("");
+    setNewEmail("");
+    setNewPhone("");
   };
 
   const handleRemove = (id: string) => {
@@ -58,8 +64,8 @@ export function TeamForm({ company }: TeamFormProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex gap-4 items-end">
-        <div className="space-y-2 flex-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end bg-gray-50 p-4 rounded-lg">
+        <div className="space-y-2">
           <Label>Nombre</Label>
           <Input
             placeholder="Ej. Carlos Perez"
@@ -67,7 +73,7 @@ export function TeamForm({ company }: TeamFormProps) {
             onChange={(e) => setNewName(e.target.value)}
           />
         </div>
-        <div className="space-y-2 flex-1">
+        <div className="space-y-2">
           <Label>Rol</Label>
           <Input
             placeholder="Ej. Agente Inmobiliario"
@@ -75,9 +81,27 @@ export function TeamForm({ company }: TeamFormProps) {
             onChange={(e) => setNewRole(e.target.value)}
           />
         </div>
-        <Button onClick={handleAdd} disabled={!newName || !newRole}>
-          <Plus className="mr-2 h-4 w-4" /> Añadir
-        </Button>
+        <div className="space-y-2">
+          <Label>Email (Para notificaciones)</Label>
+          <Input
+            placeholder="carlos@empresa.com"
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label>Teléfono / WhatsApp</Label>
+          <Input
+            placeholder="+569..."
+            value={newPhone}
+            onChange={(e) => setNewPhone(e.target.value)}
+          />
+        </div>
+        <div className="md:col-span-2 flex justify-end">
+          <Button onClick={handleAdd} disabled={!newName || !newRole}>
+            <Plus className="mr-2 h-4 w-4" /> Añadir Miembro
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -91,7 +115,17 @@ export function TeamForm({ company }: TeamFormProps) {
               </Avatar>
               <div>
                 <p className="font-semibold">{member.name}</p>
-                <p className="text-xs text-muted-foreground">{member.role}</p>
+                <p className="text-xs text-muted-foreground uppercase">
+                  {member.role}
+                </p>
+                {member.email && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    📧 {member.email}
+                  </p>
+                )}
+                {member.phone && (
+                  <p className="text-xs text-gray-500">📱 {member.phone}</p>
+                )}
               </div>
               <Button
                 variant="ghost"

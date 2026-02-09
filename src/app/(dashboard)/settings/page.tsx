@@ -14,6 +14,7 @@ import { StrategyForm } from "@/components/domain/settings/strategy-form";
 import { TeamForm } from "@/components/domain/settings/team-form";
 import { MagnetForm } from "@/components/domain/settings/magnet-form";
 import { ProductsForm } from "@/components/domain/settings/products-form";
+import { IntegrationsForm } from "@/components/domain/settings/integrations-form";
 
 export default function SettingsPage() {
   const { currentCompany, loading } = useAuth();
@@ -52,6 +53,12 @@ export default function SettingsPage() {
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary py-3 px-1 text-base"
           >
             Estrategia
+          </TabsTrigger>
+          <TabsTrigger
+            value="integrations"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary py-3 px-1 text-base"
+          >
+            Conexiones
           </TabsTrigger>
           <TabsTrigger
             value="team"
@@ -99,6 +106,20 @@ export default function SettingsPage() {
               </CardHeader>
               <CardContent className="px-0">
                 <StrategyForm company={currentCompany} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="integrations">
+            <Card className="border-none shadow-none bg-transparent">
+              <CardHeader className="px-0 pt-0">
+                <CardTitle>Integraciones Sociales</CardTitle>
+                <CardDescription>
+                  Vincula tus cuentas para habilitar la publicación automática.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="px-0">
+                <IntegrationsForm company={currentCompany} />
               </CardContent>
             </Card>
           </TabsContent>

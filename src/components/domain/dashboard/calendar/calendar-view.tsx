@@ -15,37 +15,44 @@ import {
   addWeeks,
   subWeeks,
   isToday,
-  parseISO,
 } from "date-fns";
 import { es } from "date-fns/locale";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Calendar as CalendarIcon,
-  List,
-  Video,
-  Plus,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { ContentPiece } from "@/types";
 import { ContentModal } from "./content-modal";
-import { updateContent, createContent } from "@/actions/content-actions"; // Assuming createContent is exported there
+import {
+  updateContent,
+  createContent,
+  deleteContent,
+} from "@/actions/content-actions";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { CalendarFilters } from "./calendar-filters";
+import { ContentCard } from "./content-card";
 
 interface CalendarViewProps {
   content: ContentPiece[];
+  onContentUpdate?: () => void;
 }
 
-export function CalendarView({ content }: CalendarViewProps) {
+export function CalendarView({ content, onContentUpdate }: CalendarViewProps) {
   const { currentCompany } = useAuth();
   const { toast } = useToast();
+  const router = useRouter();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<"month" | "week">("month");
+
+  // Filters State
+  const [filters, setFilters] = useState({
+    platform: "all",
+    status: "all",
+    assignedTo: "all",
+  });
 
   // Modal State
   const [selectedContent, setSelectedContent] = useState<ContentPiece | null>(
@@ -72,6 +79,15 @@ export function CalendarView({ content }: CalendarViewProps) {
 
   const goToToday = () => setCurrentDate(new Date());
 
+  // Filters Handlers
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const clearFilters = () => {
+    setFilters({ platform: "all", status: "all", assignedTo: "all" });
+  };
+
   // Date Calculation
   const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 }); // Monday start
   const weekEnd = endOfWeek(currentDate, { weekStartsOn: 1 });
@@ -89,28 +105,30 @@ export function CalendarView({ content }: CalendarViewProps) {
   // Content Filtering
   const getContentForDay = (date: Date) => {
     return content.filter((item) => {
-      // Check scheduled date
+      // 1. Date Check
       const isScheduled =
         item.scheduledDate && isSameDay(new Date(item.scheduledDate), date);
-      // Check recording date
       const isRecording =
         item.recordingDate && isSameDay(new Date(item.recordingDate), date);
 
-      return isScheduled || isRecording;
-    });
-  };
+      if (!isScheduled && !isRecording) return false;
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "idea":
-        return "bg-gray-100 text-gray-600";
-      case "posted":
-        return "bg-green-100 text-green-700";
-      case "filming":
-        return "bg-red-50 text-red-600";
-      default:
-        return "bg-blue-50 text-blue-600";
-    }
+      // 2. Filters
+      if (
+        filters.platform !== "all" &&
+        !item.platforms?.includes(filters.platform as any)
+      )
+        return false;
+      if (filters.status !== "all" && item.status !== filters.status)
+        return false;
+      if (
+        filters.assignedTo !== "all" &&
+        item.assignedTo !== filters.assignedTo
+      )
+        return false;
+
+      return true;
+    });
   };
 
   // Interactions
@@ -118,7 +136,8 @@ export function CalendarView({ content }: CalendarViewProps) {
     // Create a temporary "new" content piece
     const newPiece: Partial<ContentPiece> = {
       scheduledDate: date,
-      platform: "instagram",
+      platform: "instagram", // Should be platforms array really, but this is default
+      platforms: ["instagram"],
       status: "idea",
       title: "",
       topic: "",
@@ -146,75 +165,106 @@ export function CalendarView({ content }: CalendarViewProps) {
         await createContent(currentCompany.id, data);
         toast({ title: "Contenido creado" });
       }
-      window.location.reload();
+      onContentUpdate?.();
     } catch (e) {
       toast({ title: "Error al guardar", variant: "destructive" });
     }
   };
 
-  const getAssignedUserName = (id?: string) => {
-    if (!id || !currentCompany?.team) return null;
-    return currentCompany.team.find((m) => m.id === id)?.name?.split(" ")[0];
+  const handleDeleteContent = async (id: string) => {
+    if (!currentCompany) return;
+    if (confirm("¿Estás seguro de eliminar este contenido?")) {
+      try {
+        await deleteContent(currentCompany.id, id);
+        toast({ title: "Contenido eliminado" });
+        setIsModalOpen(false);
+        onContentUpdate?.();
+      } catch (e) {
+        toast({ title: "Error al eliminar", variant: "destructive" });
+      }
+    }
   };
 
   return (
     <>
-      <Card className="border-none shadow-sm bg-white">
-        <CardHeader className="flex flex-row items-center justify-between pb-4 border-b">
-          <div className="flex items-center gap-4">
-            <CardTitle className="capitalize text-xl">
-              {format(
-                currentDate,
-                view === "month" ? "MMMM yyyy" : "'Semana de' MMM d",
-                { locale: es },
-              )}
-            </CardTitle>
-            <div className="flex items-center rounded-md border bg-white shadow-sm">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={prev}
-                className="h-8 w-8 rounded-none border-r"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={goToToday}
-                className="h-8 rounded-none px-3 font-normal"
-              >
-                Hoy
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={next}
-                className="h-8 w-8 rounded-none border-l"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
+      <Card className="border-none shadow-sm bg-white flex flex-col h-full">
+        {/* Header Control Panel */}
+        <div className="flex flex-col border-b">
+          <CardHeader className="flex flex-row items-center justify-between py-4 px-6 border-b bg-white">
+            <div className="flex items-center gap-4">
+              <CardTitle className="capitalize text-2xl font-bold text-slate-800">
+                {format(
+                  currentDate,
+                  view === "month" ? "MMMM yyyy" : "'Semana de' MMM d",
+                  { locale: es },
+                )}
+              </CardTitle>
+              <div className="flex items-center rounded-lg border bg-slate-50 shadow-sm p-0.5">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={prev}
+                  className="h-8 w-8 rounded-md hover:bg-white hover:text-blue-600"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={goToToday}
+                  className="h-8 px-3 font-medium text-xs hover:bg-white hover:text-blue-600 rounded-md mx-0.5"
+                >
+                  Hoy
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={next}
+                  className="h-8 w-8 rounded-md hover:bg-white hover:text-blue-600"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-          </div>
 
-          <Tabs
-            value={view}
-            onValueChange={(v) => setView(v as "month" | "week")}
-            className="w-[200px]"
-          >
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="month">Mes</TabsTrigger>
-              <TabsTrigger value="week">Semana</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </CardHeader>
-        <CardContent className="p-0">
+            <Tabs
+              value={view}
+              onValueChange={(v) => setView(v as "month" | "week")}
+              className="w-[180px]"
+            >
+              <TabsList className="grid w-full grid-cols-2 bg-slate-100">
+                <TabsTrigger
+                  value="month"
+                  className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm text-xs"
+                >
+                  Mes
+                </TabsTrigger>
+                <TabsTrigger
+                  value="week"
+                  className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm text-xs"
+                >
+                  Semana
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </CardHeader>
+
+          {/* Filters Bar */}
+          <CalendarFilters
+            filters={filters}
+            onFilterChange={handleFilterChange}
+            onClearFilters={clearFilters}
+            team={currentCompany?.team || []}
+          />
+        </div>
+
+        <CardContent className="p-0 flex-1 overflow-auto">
           {/* Days Header */}
-          <div className="grid grid-cols-7 border-b bg-gray-50/50">
+          <div className="grid grid-cols-7 border-b bg-slate-50 sticky top-0 z-10 shadow-sm">
             {["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((day) => (
               <div
                 key={day}
-                className="py-2 text-center text-sm font-medium text-muted-foreground uppercase tracking-wide"
+                className="py-3 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider"
               >
                 {day}
               </div>
@@ -224,10 +274,10 @@ export function CalendarView({ content }: CalendarViewProps) {
           {/* Grid */}
           <div
             className={cn(
-              "grid grid-cols-7",
+              "grid grid-cols-7 bg-slate-100 gap-px border-b", // Use gap to create borders
               view === "month"
-                ? "auto-rows-[120px]"
-                : "auto-rows-fr min-h-[400px]",
+                ? "auto-rows-[160px]" // Taller rows
+                : "auto-rows-fr min-h-[600px]",
             )}
           >
             {daysToRender.map((day, idx) => {
@@ -240,20 +290,21 @@ export function CalendarView({ content }: CalendarViewProps) {
                   key={day.toISOString()}
                   onClick={() => handleDayClick(day)}
                   className={cn(
-                    "border-b border-r p-2 transition-colors hover:bg-gray-50/50 flex flex-col gap-1 relative group cursor-pointer",
+                    "bg-white p-2 transition-all hover:bg-slate-50 flex flex-col gap-2 relative group cursor-pointer",
                     !isCurrentMonth &&
                       view === "month" &&
-                      "bg-gray-50/30 text-muted-foreground",
-                    isTodayDate && "bg-blue-50/20",
+                      "bg-slate-50/50 text-slate-400",
+                    isTodayDate &&
+                      "bg-blue-50/30 ring-inset ring-2 ring-blue-500/20 z-0",
                   )}
                 >
                   <div className="flex justify-between items-start">
                     <span
                       className={cn(
-                        "text-sm font-medium h-7 w-7 flex items-center justify-center rounded-full",
+                        "text-sm font-semibold h-7 w-7 flex items-center justify-center rounded-lg",
                         isTodayDate
-                          ? "bg-blue-600 text-white"
-                          : "text-gray-700",
+                          ? "bg-blue-600 text-white shadow-md shadow-blue-200"
+                          : "text-slate-700",
                       )}
                     >
                       {format(day, "d")}
@@ -261,71 +312,25 @@ export function CalendarView({ content }: CalendarViewProps) {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-all hover:bg-blue-100 hover:text-blue-600"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDayClick(day);
                       }}
                     >
-                      <Plus className="h-3 w-3" />
+                      <Plus className="h-4 w-4" />
                     </Button>
                   </div>
 
                   {/* Content List */}
-                  <div className="flex flex-col gap-1 mt-1 overflow-y-auto max-h-full no-scrollbar">
-                    {dayContent.map((piece) => {
-                      const isRecording =
-                        piece.recordingDate &&
-                        isSameDay(new Date(piece.recordingDate), day);
-                      const assignedName = getAssignedUserName(
-                        piece.assignedTo,
-                      );
-
-                      return (
-                        <div
-                          key={piece.id + (isRecording ? "-rec" : "")}
-                          onClick={(e) => handleContentClick(e, piece)}
-                          className={cn(
-                            "text-[10px] p-1.5 rounded border border-l-2 truncate cursor-pointer hover:opacity-80 transition-opacity hover:shadow-md flex flex-col",
-                            view === "week" ? "p-3 mb-2 shadow-sm" : "",
-                            isRecording
-                              ? "bg-amber-50 border-amber-300 text-amber-800"
-                              : getStatusColor(piece.status),
-                          )}
-                          style={{
-                            borderLeftColor: isRecording
-                              ? "#F59E0B"
-                              : piece.platform === "instagram"
-                                ? "#E1306C"
-                                : "#FF0000",
-                          }}
-                        >
-                          <div className="flex items-center gap-1">
-                            {isRecording && (
-                              <Video className="h-3 w-3 mr-0.5" />
-                            )}
-                            {view === "week" && !isRecording && (
-                              <Video className="h-3 w-3" />
-                            )}
-                            <span
-                              className={cn(
-                                "font-medium",
-                                isRecording && "font-bold",
-                              )}
-                            >
-                              {isRecording ? "Grabar: " : ""}{" "}
-                              {piece.title || piece.topic || "Sin título"}
-                            </span>
-                          </div>
-
-                          {isRecording && assignedName && (
-                            <div className="text-[9px] opacity-80 mt-0.5 font-medium">
-                              👤 {assignedName}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
+                  <div className="flex flex-col gap-2 overflow-y-auto max-h-full no-scrollbar px-0.5 pb-1">
+                    {dayContent.map((piece) => (
+                      <ContentCard
+                        key={piece.id}
+                        content={piece}
+                        onClick={(e) => handleContentClick(e, piece)}
+                      />
+                    ))}
                   </div>
                 </div>
               );
@@ -339,7 +344,9 @@ export function CalendarView({ content }: CalendarViewProps) {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveContent}
+        onDelete={handleDeleteContent}
         team={currentCompany?.team || []}
+        companyDriveLink={currentCompany?.drive_link}
       />
     </>
   );

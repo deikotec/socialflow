@@ -70,6 +70,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       setCompanies(companiesList);
 
+      // Restore from localStorage if no current company
+      if (typeof window !== "undefined") {
+        const lastCompanyId = localStorage.getItem("socialflow_last_company");
+        if (lastCompanyId) {
+          const lastCompany = companiesList.find((c) => c.id === lastCompanyId);
+          if (lastCompany) {
+            setCurrentCompany(lastCompany);
+            return;
+          }
+        }
+      }
+
       // Update currentCompany with new data if it exists in the new list
       setCurrentCompany((prev) => {
         if (!prev) return null;

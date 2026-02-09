@@ -4,6 +4,7 @@ import { adminAuth, adminDb } from "@/lib/firebase-admin";
 import { generateContentIdeas, GeneratedIdea } from "@/lib/ai/gemini";
 import { ContentPiece, ContentStatus } from "@/types";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 // --- AI Generation ---
 
@@ -47,6 +48,8 @@ export async function createContent(companyId: string, data: Partial<ContentPiec
     };
 
     await contentRef.set(newContent);
+    revalidatePath("/content"); // Invalidate cache for the content page
+    revalidatePath("/home");    // Also home if it shows recent content
     return { success: true, id: contentRef.id };
 }
 
@@ -92,6 +95,8 @@ export async function updateContentStatus(companyId: string, contentId: string, 
             updatedAt: new Date()
         });
     
+    revalidatePath("/content");
+    revalidatePath("/home");
     return { success: true };
 }
 
@@ -112,5 +117,23 @@ export async function updateContent(companyId: string, contentId: string, data: 
             updatedAt: new Date(),
         });
 
+    revalidatePath("/content");
+    revalidatePath("/home");
+    return { success: true };
+}
+
+export async function deleteContent(companyId: string, contentId: string) {
+    const session = (await cookies()).get("session")?.value;
+    if (!session) throw new Error("Unauthorized");
+
+    await adminDb
+        .collection("companies")
+        .doc(companyId)
+        .collection("content")
+        .doc(contentId)
+        .delete();
+
+    revalidatePath("/content");
+    revalidatePath("/home");
     return { success: true };
 }

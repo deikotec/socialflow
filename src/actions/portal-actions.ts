@@ -43,7 +43,7 @@ export async function getPortalContent(companyId: string) {
   }
 }
 
-export async function approveContent(companyId: string, contentId: string, feedback?: string) {
+export async function approveContent(companyId: string, contentId: string, feedback?: string, targetStatus: string = "approved") {
   try {
     await adminDb
       .collection("companies")
@@ -51,7 +51,7 @@ export async function approveContent(companyId: string, contentId: string, feedb
       .collection("content")
       .doc(contentId)
       .update({
-        status: "approved",
+        status: targetStatus,
         feedback: feedback || "",
         updatedAt: new Date(),
       });
@@ -78,5 +78,32 @@ export async function rejectContent(companyId: string, contentId: string, feedba
   } catch (error) {
     console.error("Error rejecting content:", error);
     throw new Error("Failed to reject content");
+  }
+}
+// ... existing code ...
+
+export async function getPublicContent(companyId: string, contentId: string) {
+  try {
+    const doc = await adminDb
+      .collection("companies")
+      .doc(companyId)
+      .collection("content")
+      .doc(contentId)
+      .get();
+
+    if (!doc.exists) return null;
+
+    const data = doc.data();
+    return {
+      id: doc.id,
+      ...data,
+      createdAt: data?.createdAt?.toDate() || null,
+      updatedAt: data?.updatedAt?.toDate() || null,
+      scheduledDate: data?.scheduledDate?.toDate() || null,
+      recordingDate: data?.recordingDate?.toDate() || null,
+    } as unknown as ContentPiece;
+  } catch (error) {
+    console.error("Error fetching public content:", error);
+    return null;
   }
 }

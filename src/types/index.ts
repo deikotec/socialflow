@@ -2,6 +2,8 @@ export interface Company {
   id: string;
   name: string;
   drive_folder_id: string; // Creates a folder in Drive or uses an existing one
+  drive_link?: string; // Direct URL to the Drive folder
+  drive_refresh_token?: string; // Stored securely to access Drive API
   portalToken: string; // Secure token for public access,
   createdAt: Date;
   ownerId: string; // The user (agency/freelancer) who manages this company
@@ -21,6 +23,23 @@ export interface Company {
   targetAudience?: string;
   usp?: string;
   tone?: string;
+  socialConnections?: {
+    instagram?: {
+      accessToken: string;
+      instagramUserId: string; // The IG Business Account ID
+      pageId: string; // The Facebook Page ID
+      username?: string; // For display
+      updatedAt: Date;
+    };
+    tiktok?: {
+      accessToken: string;
+      refreshToken: string; // For refreshing access
+      expiresIn: number;
+      openId: string; // TikTok User ID
+      username?: string; // For display
+      updatedAt: Date;
+    };
+  };
   products?: ProductService[];
 }
 
@@ -39,6 +58,7 @@ export type ContentStatus =
   | "editing"
   | "review"
   | "approved"
+  | "scheduled"
   | "posted"
   | "rejected";
 
@@ -48,7 +68,7 @@ export interface ContentPiece {
   title?: string;
   script: string;
   status: ContentStatus;
-  platform: "instagram" | "tiktok" | "youtube";
+  platforms: ("instagram" | "tiktok" | "youtube")[];
   scheduledDate?: Date;
   recordingDate?: Date;
   drive_file_id?: string;
@@ -59,6 +79,14 @@ export interface ContentPiece {
   assignedTo?: string; // ID of the TeamMember
   createdAt: Date;
   updatedAt: Date;
+  drive_link?: string; // Web accessible link
+  carouselFiles?: {
+    drive_file_id: string;
+    drive_link: string;
+    mimeType: string;
+    order: number;
+    name?: string;
+  }[];
 }
 
 export interface UserProfile {
@@ -84,6 +112,8 @@ export interface TeamMember {
   id: string;
   name: string;
   role: string;
+  email?: string;
+  phone?: string;
   avatarUrl?: string; // Optional URL for profile picture
 }
 

@@ -19,8 +19,8 @@ export default function ClientsPage() {
 
   const handleSelect = (id: string) => {
     selectCompany(id);
-    router.push("/content");
-    router.refresh();
+    router.push("/home");
+    // router.refresh(); // Not strictly needed if state is global, but harmless
   };
 
   if (loading) {
