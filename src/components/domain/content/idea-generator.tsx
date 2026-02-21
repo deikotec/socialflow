@@ -46,7 +46,7 @@ export function IdeaGenerator({
         topic: topic,
         script: `**Hook:** ${idea.hook}\n\n**Body:** ${idea.body}\n\n**CTA:** ${idea.cta}\n\n**Visuals:** ${idea.visual_cues}`,
         status: "idea",
-        platform: "instagram", // Default
+        platforms: ["instagram"],
       });
       if (onIdeaCreated) onIdeaCreated();
       // Optionally remove from list or show success toast

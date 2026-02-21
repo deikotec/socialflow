@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yosol · Estrategia de Contenido 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2eb;
+    --surface: #ede9df;
+    --card: #ffffff;
+    --border: rgba(0,0,0,0.07);
+    --sun: #f5a623;
+    --sun-deep: #e07b00;
+    --sky: #1a6faf;
+    --sky-light: #e8f3fb;
+    --green: #3a8c5c;
+    --green-light: #e6f4ec;
+    --text: #1c1a14;
+    --muted: #7a7260;
+    --insta: #e1306c;
+    --tiktok: #010101;
+    --linkedin: #0077b5;
+    --shadow-soft: 0 4px 24px rgba(0,0,0,0.07);
+    --shadow-lift: 0 12px 40px rgba(0,0,0,0.13);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* SVG sun rays background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px;
+    right: -200px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(245,166,35,0.18) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -100px;
+    left: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(26,111,175,0.10) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 52px 24px 80px;
+  }
+
+  /* ── HEADER ─────────────────────────────── */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 24px;
+    margin-bottom: 48px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .header-left {}
+  .sun-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--sun);
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    padding: 5px 14px 5px 10px;
+    margin-bottom: 18px;
+  }
+  .sun-badge svg { width: 16px; height: 16px; }
+  h1 {
+    font-family: 'Clash Display', 'Barlow', sans-serif;
+    font-size: clamp(32px, 5.5vw, 58px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  h1 .accent { color: var(--sun-deep); }
+  h1 .accent2 { color: var(--sky); }
+  .subtitle {
+    margin-top: 14px;
+    font-size: 16px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.65;
+    max-width: 480px;
+  }
+  .company-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow-soft);
+    min-width: 210px;
+    text-align: right;
+  }
+  .company-name {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--sky);
+  }
+  .company-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .company-loc {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: flex-end;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 10px;
+    opacity: 0.6;
+  }
+
+  /* ── META PILLS ─────────────────────────── */
+  .meta-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 52px;
+    animation: fadeUp 0.6s 0.08s ease both;
+  }
+  .badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow-soft);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* ── SECTION TITLES ─────────────────────── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── INSIGHTS STRIP ─────────────────────── */
+  .insights-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 52px;
+    animation: fadeUp 0.6s 0.12s ease both;
+  }
+  .insight {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px 20px;
+    box-shadow: var(--shadow-soft);
+    border-left: 4px solid var(--insight-color, var(--sun));
+  }
+  .insight-icon { font-size: 22px; margin-bottom: 8px; }
+  .insight-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 6px; }
+  .insight-value { font-family: 'Clash Display', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); }
+  .insight-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  /* ── PILLARS ────────────────────────────── */
+  .pillars-section { margin-bottom: 52px; animation: fadeUp 0.6s 0.16s ease both; }
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 14px;
+  }
+  .pillar-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 28px 24px;
+    cursor: pointer;
+    transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+  }
+  .pillar-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--p-color);
+    border-radius: 22px 22px 0 0;
+  }
+  .pillar-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lift);
+  }
+  .pillar-card.active {
+    border-color: var(--p-color);
+    box-shadow: 0 0 0 2px var(--p-color), var(--shadow-lift);
+  }
+  .pillar-icon { font-size: 30px; margin-bottom: 14px; display: block; }
+  .pillar-name {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+  }
+  .pillar-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .pillar-pct {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--p-color);
+    background: color-mix(in srgb, var(--p-color) 10%, transparent);
+    border-radius: 100px;
+    padding: 3px 12px;
+  }
+  .pillar-examples {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .ex-item {
+    font-size: 11px;
+    color: var(--muted);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .ex-item::before {
+    content: '☀';
+    position: absolute;
+    left: 0;
+    color: var(--p-color);
+    font-size: 9px;
+  }
+
+  /* ── DETAIL PANEL ───────────────────────── */
+  .detail-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 34px;
+    margin-bottom: 52px;
+    display: none;
+    box-shadow: var(--shadow-lift);
+    animation: slideIn 0.3s ease;
+  }
+  .detail-panel.visible { display: block; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .dh { display: flex; align-items: center; gap: 16px; margin-bottom: 26px; }
+  .dh-icon {
+    width: 54px; height: 54px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+  }
+  .dh-title { font-family: 'Clash Display', sans-serif; font-size: 22px; font-weight: 700; }
+  .dh-sub { font-size: 13px; color: var(--muted); margin-top: 3px; }
+  .formats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 12px;
+  }
+  .fmt {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    transition: background 0.2s;
+  }
+  .fmt:hover { background: var(--surface); }
+  .fmt-ch {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    padding: 2px 9px;
+    margin-bottom: 8px;
+  }
+  .ch-ig { background: rgba(225,48,108,0.12); color: var(--insta); }
+  .ch-tk { background: rgba(1,1,1,0.07); color: var(--text); }
+  .ch-li { background: rgba(0,119,181,0.12); color: var(--linkedin); }
+  .fmt-type { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .fmt-freq { font-size: 12px; color: var(--muted); }
+  .fmt-copy {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.4;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── CALENDAR ───────────────────────────── */
+  .calendar-section { margin-bottom: 52px; animation: fadeUp 0.6s 0.2s ease both; }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+  }
+  .cal-day {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 14px 10px 16px;
+    min-height: 130px;
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow 0.2s;
+  }
+  .cal-day:hover { box-shadow: var(--shadow-lift); }
+  .cal-name {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .cal-pill {
+    display: block;
+    border-radius: 8px;
+    padding: 5px 8px;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.35;
+    margin-bottom: 5px;
+    border-left: 3px solid;
+  }
+  .cp-ig { background: rgba(225,48,108,0.09); border-color: var(--insta); color: #b5133e; }
+  .cp-tk { background: rgba(0,0,0,0.05); border-color: #555; color: #333; }
+  .cp-li { background: rgba(0,119,181,0.09); border-color: var(--linkedin); color: #005a8e; }
+  .cp-rest { background: rgba(0,0,0,0.03); border-color: #ccc; color: var(--muted); }
+  .today-mark {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--sun);
+    display: inline-block;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  /* ── KPIs ───────────────────────────────── */
+  .kpi-section { margin-bottom: 52px; animation: fadeUp 0.6s 0.24s ease both; }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 12px;
+  }
+  .kpi {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px 20px;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.2s;
+  }
+  .kpi:hover { transform: translateY(-3px); }
+  .kpi-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; }
+  .kpi-value {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--sky);
+  }
+  .kpi-target { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+
+  /* ── ROADMAP ────────────────────────────── */
+  .roadmap-section { margin-bottom: 52px; animation: fadeUp 0.6s 0.28s ease both; }
+  .phases {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    position: relative;
+  }
+  .phases::before {
+    content: '';
+    position: absolute;
+    top: 34px;
+    left: 17%;
+    right: 17%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--sun), var(--sky));
+    opacity: 0.3;
+    z-index: 0;
+  }
+  .phase {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 28px 22px;
+    position: relative;
+    z-index: 1;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.22s, box-shadow 0.22s;
+    border-top: 4px solid var(--ph-color);
+  }
+  .phase:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+  .ph-num { font-family: 'Clash Display', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 7px; color: var(--ph-color); }
+  .ph-title { font-family: 'Clash Display', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 5px; }
+  .ph-period { font-size: 12px; color: var(--muted); font-style: italic; margin-bottom: 16px; }
+  .ph-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .ph-list li {
+    font-size: 12.5px;
+    color: var(--muted);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.45;
+  }
+  .ph-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--ph-color);
+    font-size: 11px;
+    top: 1px;
+  }
+
+  /* ── CONTENT IDEAS TABLE ────────────────── */
+  .ideas-section { margin-bottom: 52px; animation: fadeUp 0.6s 0.32s ease both; }
+  .ideas-table {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+  }
+  .it-row {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.2fr 1fr;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    transition: background 0.15s;
+    gap: 12px;
+  }
+  .it-row:last-child { border-bottom: none; }
+  .it-row:hover { background: var(--bg); }
+  .it-head {
+    background: var(--surface);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .it-head:hover { background: var(--surface); }
+  .it-idea { font-size: 13px; font-weight: 500; line-height: 1.4; }
+  .it-type { font-size: 12px; color: var(--muted); }
+  .it-ch-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 100px;
+    padding: 3px 10px;
+  }
+  .it-pillar {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 100px;
+    padding: 3px 10px;
+  }
+
+  /* ── CHECKLIST ──────────────────────────── */
+  .checklist-section { animation: fadeUp 0.6s 0.36s ease both; }
+  .checklist {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 36px;
+    box-shadow: var(--shadow-soft);
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item.done { opacity: 0.38; }
+  .check-box {
+    width: 24px; height: 24px;
+    border-radius: 7px;
+    border: 2px solid var(--border);
+    background: transparent;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    margin-top: 0px;
+  }
+  .check-item.done .check-box { background: var(--green); border-color: var(--green); }
+  .check-tick { display: none; color: #fff; font-size: 13px; font-weight: 700; }
+  .check-item.done .check-tick { display: block; }
+  .check-label { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+  .check-item.done .check-label { text-decoration: line-through; }
+  .check-sublabel { font-size: 12px; color: var(--muted); line-height: 1.45; }
+  .progress-bar {
+    background: var(--surface);
+    border-radius: 100px;
+    height: 6px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--sun), var(--green));
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ── FOOTER ─────────────────────────────── */
+  .footer-note {
+    margin-top: 56px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .footer-note a { color: var(--sky); text-decoration: none; }
+
+  /* ── ANIMATIONS ─────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ─────────────────────────── */
+  @media (max-width: 720px) {
+    .header { grid-template-columns: 1fr; }
+    .company-card { text-align: left; }
+    .company-loc { justify-content: flex-start; }
+    .cal-grid { grid-template-columns: repeat(4, 1fr); }
+    .phases { grid-template-columns: 1fr; }
+    .phases::before { display: none; }
+    .it-row { grid-template-columns: 1fr 1fr; }
+    .it-row .it-type, .it-row .it-pillar { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- ═══════ HEADER ═══════ -->
+  <div class="header">
+    <div class="header-left">
+      <div class="sun-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        Estrategia de Contenido 2025
+      </div>
+      <h1>Conecta, Convence<br>y <span class="accent">Vende más</span><br><span class="accent2">solar</span> en Valencia</h1>
+      <p class="subtitle">Plan de contenido personalizado para Yosol Instalaciones. Diseñado para crecer en Instagram, TikTok y LinkedIn y convertir seguidores en clientes que ahorran en su factura de luz.</p>
+    </div>
+    <div class="company-card">
+      <div class="company-name">Yosol</div>
+      <div class="company-sub">Instalaciones fotovoltaicas &amp; electricidad</div>
+      <div class="company-loc">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Aldaia, Valencia
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ META BADGES ═══════ -->
+  <div class="meta-bar">
+    <div class="badge"><span class="dot" style="background:#e1306c"></span>Instagram &amp; TikTok</div>
+    <div class="badge"><span class="dot" style="background:#0077b5"></span>LinkedIn</div>
+    <div class="badge"><span class="dot" style="background:var(--sun)"></span>Negocio B2C</div>
+    <div class="badge"><span class="dot" style="background:var(--green)"></span>+Comunidad &amp; +Ventas</div>
+    <div class="badge"><span class="dot" style="background:var(--sky)"></span>300+ proyectos realizados</div>
+  </div>
+
+  <!-- ═══════ INSIGHTS / CONTEXTO ═══════ -->
+  <div class="section-label">Contexto de negocio</div>
+  <div class="insights-strip">
+    <div class="insight" style="--insight-color:var(--sun)">
+      <div class="insight-icon">☀️</div>
+      <div class="insight-label">Sector</div>
+      <div class="insight-value">Energía Solar</div>
+      <div class="insight-sub">Fotovoltaica + electricidad</div>
+    </div>
+    <div class="insight" style="--insight-color:var(--sky)">
+      <div class="insight-icon">🏗️</div>
+      <div class="insight-label">Servicios clave</div>
+      <div class="insight-value">6 líneas</div>
+      <div class="insight-sub">Solar, EV, Clima, Seg., Eléctrica, Legal</div>
+    </div>
+    <div class="insight" style="--insight-color:var(--green)">
+      <div class="insight-icon">📍</div>
+      <div class="insight-label">Cobertura</div>
+      <div class="insight-value">España</div>
+      <div class="insight-sub">Sede en Aldaia, Valencia</div>
+    </div>
+    <div class="insight" style="--insight-color:var(--sun-deep)">
+      <div class="insight-icon">🏆</div>
+      <div class="insight-label">Proyectos</div>
+      <div class="insight-value">300+</div>
+      <div class="insight-sub">Completados y 3.000 kW instalados</div>
+    </div>
+    <div class="insight" style="--insight-color:var(--sky)">
+      <div class="insight-icon">💰</div>
+      <div class="insight-label">Propuesta de valor</div>
+      <div class="insight-value">Factura a 0€</div>
+      <div class="insight-sub">Batería virtual + fotovoltaica</div>
+    </div>
+  </div>
+
+  <!-- ═══════ PILARES ═══════ -->
+  <div class="pillars-section">
+    <div class="section-label">Pilares de contenido — toca para ver formatos concretos</div>
+    <div class="pillars-grid" id="pillarsGrid">
+
+      <div class="pillar-card" style="--p-color:var(--sun)" onclick="togglePillar(0)">
+        <span class="pillar-icon">⚡</span>
+        <div class="pillar-name">El Ahorro Real</div>
+        <div class="pillar-desc">Contenido que muestra el impacto económico directo de instalar solar. El gancho más potente para el cliente B2C.</div>
+        <div class="pillar-examples">
+          <div class="ex-item">"Tu vecino pagó 0€ en agosto. Así lo hizo."</div>
+          <div class="ex-item">Comparativa factura antes/después</div>
+          <div class="ex-item">Calculadora de ahorro en story</div>
+        </div>
+        <span class="pillar-pct" style="--p-color:var(--sun)">35% del contenido</span>
+      </div>
+
+      <div class="pillar-card" style="--p-color:var(--sky)" onclick="togglePillar(1)">
+        <span class="pillar-icon">🎓</span>
+        <div class="pillar-name">Educa &amp; Desmitifica</div>
+        <div class="pillar-desc">Rompe las barreras de entrada. Muchos no instalan solar por dudas y miedos. Tú eres quien las resuelve.</div>
+        <div class="pillar-examples">
+          <div class="ex-item">"¿Cuánto tarda en amortizarse?"</div>
+          <div class="ex-item">"¿Qué pasa en días nublados?"</div>
+          <div class="ex-item">Guía de trámites y ayudas 2025</div>
+        </div>
+        <span class="pillar-pct" style="--p-color:var(--sky)">30% del contenido</span>
+      </div>
+
+      <div class="pillar-card" style="--p-color:var(--green)" onclick="togglePillar(2)">
+        <span class="pillar-icon">🏠</span>
+        <div class="pillar-name">Proyectos Reales</div>
+        <div class="pillar-desc">Muestra el trabajo hecho. La prueba social más potente para generar confianza y leads directos.</div>
+        <div class="pillar-examples">
+          <div class="ex-item">Timelapse de instalación en Aldaia</div>
+          <div class="ex-item">Caso de éxito: familia en Valencia</div>
+          <div class="ex-item">Tour por instalación industrial</div>
+        </div>
+        <span class="pillar-pct" style="--p-color:var(--green)">20% del contenido</span>
+      </div>
+
+      <div class="pillar-card" style="--p-color:#e07b00" onclick="togglePillar(3)">
+        <span class="pillar-icon">🌍</span>
+        <div class="pillar-name">Sostenibilidad &amp; Marca</div>
+        <div class="pillar-desc">El lado emocional. Conecta con valores ecológicos y la misión de Yosol de crear independencia energética.</div>
+        <div class="pillar-examples">
+          <div class="ex-item">kW instalados = X toneladas CO₂ evitadas</div>
+          <div class="ex-item">Detrás de cámaras del equipo</div>
+          <div class="ex-item">Actualidad del sector solar</div>
+        </div>
+        <span class="pillar-pct" style="--p-color:#e07b00">15% del contenido</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════ DETAIL PANEL ═══════ -->
+  <div class="detail-panel" id="detailPanel"></div>
+
+  <!-- ═══════ IDEAS DE CONTENIDO ═══════ -->
+  <div class="ideas-section">
+    <div class="section-label">20 ideas de contenido listas para publicar</div>
+    <div class="ideas-table">
+      <div class="it-row it-head">
+        <div>Idea de contenido</div>
+        <div>Canal</div>
+        <div>Formato</div>
+        <div>Pilar</div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">Antes/Después de factura de un cliente real en Valencia</div>
+        <div><span class="it-ch-tag ch-ig">📸 Instagram</span></div>
+        <div class="it-type">Carrusel</div>
+        <div><span class="it-pillar" style="background:rgba(245,166,35,0.15);color:var(--sun-deep)">Ahorro</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">Timelapse de instalación de paneles en una vivienda unifamiliar</div>
+        <div><span class="it-ch-tag ch-tk">🎵 TikTok</span></div>
+        <div class="it-type">Vídeo 30 seg</div>
+        <div><span class="it-pillar" style="background:rgba(58,140,92,0.12);color:var(--green)">Proyectos</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">¿Cuánto puedes ahorrar al año con solar en Valencia? Calculamos tu caso</div>
+        <div><span class="it-ch-tag ch-li">💼 LinkedIn</span></div>
+        <div class="it-type">Post + encuesta</div>
+        <div><span class="it-pillar" style="background:rgba(245,166,35,0.15);color:var(--sun-deep)">Ahorro</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">3 mitos sobre la energía solar que te están costando dinero</div>
+        <div><span class="it-ch-tag ch-ig">📸 Instagram</span></div>
+        <div class="it-type">Reels</div>
+        <div><span class="it-pillar" style="background:rgba(26,111,175,0.1);color:var(--sky)">Educa</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">Instalamos un cargador de coche eléctrico en 2 horas — así funciona</div>
+        <div><span class="it-ch-tag ch-tk">🎵 TikTok</span></div>
+        <div class="it-type">Tutorial 60 seg</div>
+        <div><span class="it-pillar" style="background:rgba(58,140,92,0.12);color:var(--green)">Proyectos</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">¿Qué ayudas y subvenciones hay en 2025 para instalar solar en España?</div>
+        <div><span class="it-ch-tag ch-li">💼 LinkedIn</span></div>
+        <div class="it-type">Artículo</div>
+        <div><span class="it-pillar" style="background:rgba(26,111,175,0.1);color:var(--sky)">Educa</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">Testimonio en vídeo de familia en Aldaia: "Llevamos 6 meses con la luz gratis"</div>
+        <div><span class="it-ch-tag ch-ig">📸 Instagram</span></div>
+        <div class="it-type">Reels</div>
+        <div><span class="it-pillar" style="background:rgba(58,140,92,0.12);color:var(--green)">Proyectos</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">Granos de arena → paneles → factura 0€: el proceso explicado en 60 seg</div>
+        <div><span class="it-ch-tag ch-tk">🎵 TikTok</span></div>
+        <div class="it-type">Animación / vídeo</div>
+        <div><span class="it-pillar" style="background:rgba(26,111,175,0.1);color:var(--sky)">Educa</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">300 proyectos = X toneladas de CO₂ que no llegaron a la atmósfera</div>
+        <div><span class="it-ch-tag ch-ig">📸 Instagram</span></div>
+        <div class="it-type">Infografía</div>
+        <div><span class="it-pillar" style="background:rgba(224,123,0,0.1);color:var(--sun-deep)">Marca</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">Nuestro equipo en obra: detrás de cada instalación hay personas reales</div>
+        <div><span class="it-ch-tag ch-li">💼 LinkedIn</span></div>
+        <div class="it-type">Foto + historia</div>
+        <div><span class="it-pillar" style="background:rgba(224,123,0,0.1);color:var(--sun-deep)">Marca</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">¿Tienes comunidad de vecinos? Así funciona el autoconsumo colectivo</div>
+        <div><span class="it-ch-tag ch-ig">📸 Instagram</span></div>
+        <div class="it-type">Carrusel educativo</div>
+        <div><span class="it-pillar" style="background:rgba(26,111,175,0.1);color:var(--sky)">Educa</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">Story interactivo: "¿Cuánto pagas de luz al mes?" → CTA presupuesto</div>
+        <div><span class="it-ch-tag ch-ig">📸 Instagram</span></div>
+        <div class="it-type">Story con slider</div>
+        <div><span class="it-pillar" style="background:rgba(245,166,35,0.15);color:var(--sun-deep)">Ahorro</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">Instalación industrial en nave de Valencia: 50 kW para una empresa</div>
+        <div><span class="it-ch-tag ch-li">💼 LinkedIn</span></div>
+        <div class="it-type">Caso de éxito</div>
+        <div><span class="it-pillar" style="background:rgba(58,140,92,0.12);color:var(--green)">Proyectos</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">Líneas de vida: ¿Sabes que la ley obliga a instalarlas en ciertos tejados?</div>
+        <div><span class="it-ch-tag ch-tk">🎵 TikTok</span></div>
+        <div class="it-type">Vídeo informativo</div>
+        <div><span class="it-pillar" style="background:rgba(26,111,175,0.1);color:var(--sky)">Educa</span></div>
+      </div>
+      <div class="it-row">
+        <div class="it-idea">El verano pasado generamos el doble de lo que consumimos — así funciona la batería virtual</div>
+        <div><span class="it-ch-tag ch-ig">📸 Instagram</span></div>
+        <div class="it-type">Reels con gráfico</div>
+        <div><span class="it-pillar" style="background:rgba(245,166,35,0.15);color:var(--sun-deep)">Ahorro</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ CALENDARIO SEMANAL ═══════ -->
+  <div class="calendar-section">
+    <div class="section-label">Calendario semanal sugerido</div>
+    <div class="cal-grid">
+      <div class="cal-day">
+        <div class="cal-name">Lun</div>
+        <span class="cal-pill cp-li">LinkedIn<br>Educativo / sector</span>
+      </div>
+      <div class="cal-day">
+        <div class="cal-name">Mar</div>
+        <span class="cal-pill cp-ig">Reels IG<br>Ahorro / antes-después</span>
+      </div>
+      <div class="cal-day">
+        <div class="cal-name">Mié</div>
+        <span class="cal-pill cp-tk">TikTok<br>Tutorial o mito</span>
+      </div>
+      <div class="cal-day">
+        <div class="cal-name">Jue</div>
+        <span class="cal-pill cp-li">LinkedIn<br>Caso de éxito</span>
+        <span class="cal-pill cp-ig" style="margin-top:5px">Story IG<br>CTA presupuesto</span>
+      </div>
+      <div class="cal-day">
+        <div class="cal-name">Vie</div>
+        <span class="cal-pill cp-tk">TikTok<br>Proyecto real / timelapse</span>
+        <span class="cal-pill cp-ig" style="margin-top:5px">Reels IG<br>Equipo / detrás escena</span>
+      </div>
+      <div class="cal-day">
+        <div class="cal-name">Sáb</div>
+        <span class="cal-pill cp-ig">Story IG<br>Curiosidad solar / encuesta</span>
+      </div>
+      <div class="cal-day">
+        <div class="cal-name">Dom</div>
+        <span class="cal-pill cp-rest">Planificar semana siguiente</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ KPIs ═══════ -->
+  <div class="kpi-section">
+    <div class="section-label">KPIs clave para Yosol</div>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">Engagement rate</div>
+        <div class="kpi-value">≥ 3%</div>
+        <div class="kpi-target">Likes + comentarios + shares sobre alcance</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Leads WhatsApp</div>
+        <div class="kpi-value">+30%</div>
+        <div class="kpi-target">Mensajes directos pidiendo presupuesto</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Crecimiento seguidores</div>
+        <div class="kpi-value">+10%</div>
+        <div class="kpi-target">Mensual en IG + TikTok</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Guardados / Saves</div>
+        <div class="kpi-value">≥ 5%</div>
+        <div class="kpi-target">Por post educativo (señal de valor)</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Visitas a yosol.es</div>
+        <div class="kpi-value">+20%</div>
+        <div class="kpi-target">Tráfico desde redes sociales</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Revisión de métricas</div>
+        <div class="kpi-value">Lunes</div>
+        <div class="kpi-target">30 min · Ajusta la semana siguiente</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ ROADMAP ═══════ -->
+  <div class="roadmap-section">
+    <div class="section-label">Plan de acción en 3 fases</div>
+    <div class="phases">
+      <div class="phase" style="--ph-color:var(--sun)">
+        <div class="ph-num">Fase 01</div>
+        <div class="ph-title">Construir Presencia</div>
+        <div class="ph-period">Semanas 1–4</div>
+        <ul class="ph-list">
+          <li>Optimizar perfiles de IG, TikTok y LinkedIn</li>
+          <li>Crear 10 posts de banco antes de empezar</li>
+          <li>Definir tono visual: solar, cálido, profesional</li>
+          <li>Publicar 5 veces/semana de forma consistente</li>
+          <li>Testear 3 formatos: Reels, carrusel, story</li>
+        </ul>
+      </div>
+      <div class="phase" style="--ph-color:var(--sky)">
+        <div class="ph-num">Fase 02</div>
+        <div class="ph-title">Amplificar &amp; Optimizar</div>
+        <div class="ph-period">Semanas 5–8</div>
+        <ul class="ph-list">
+          <li>Doblar los formatos que más enganchan</li>
+          <li>Pedir testimonios en vídeo a clientes</li>
+          <li>Publicar en LinkedIn para empresas y comunidades</li>
+          <li>Activar CTAs directos a WhatsApp</li>
+          <li>Hacer collabs con instaladores o arquitectos</li>
+        </ul>
+      </div>
+      <div class="phase" style="--ph-color:var(--green)">
+        <div class="ph-num">Fase 03</div>
+        <div class="ph-title">Convertir &amp; Escalar</div>
+        <div class="ph-period">Semanas 9–12</div>
+        <ul class="ph-list">
+          <li>Funnel completo: contenido → story → WhatsApp</li>
+          <li>Campaña de verano (máxima irradiación)</li>
+          <li>Medir leads generados por redes sociales</li>
+          <li>Batería de contenido para otoño/invierno</li>
+          <li>Evaluar inversión en publicidad orgánica + paid</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ CHECKLIST ═══════ -->
+  <div class="checklist-section">
+    <div class="section-label">Checklist de arranque — toca para marcar</div>
+    <div class="checklist" id="checklist">
+      <div class="progress-label">
+        <span id="progressText">Progreso: 0 de 8 tareas</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">Actualizar bio de Instagram: "Instaladores solares en Valencia · Presupuesto GRATIS 📲"</div>
+          <div class="check-sublabel">Añadir link de WhatsApp directo (wa.me/34622249678) en bio</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">Crear perfil TikTok @yosolinstalaciones y vincular con IG</div>
+          <div class="check-sublabel">Si no existe aún — TikTok es clave para alcance orgánico en B2C</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">Fotografiar o grabar 5 instalaciones recientes de clientes (con permiso)</div>
+          <div class="check-sublabel">Estas imágenes son el activo más valioso — úsalas en 10+ posts</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">Definir paleta visual: amarillo sol + azul cielo + blanco</div>
+          <div class="check-sublabel">Canva tiene plantillas de solar — crea 3 templates para Reels, carrusel y story</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">Preparar banco de contenido: 10 posts antes de publicar el primero</div>
+          <div class="check-sublabel">Nunca publiques sin colchón — evita el estrés semanal y la inconsistencia</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">Instalar herramienta de programación: Meta Business Suite (gratis)</div>
+          <div class="check-sublabel">Para programar IG y Facebook con anticipación. TikTok tiene su propio planificador</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">Pedir a 3 clientes satisfechos un testimonio en vídeo (30 seg)</div>
+          <div class="check-sublabel">"¿Cuánto ahorras?" → Eso es mejor que cualquier anuncio pagado</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"><span class="check-tick">✓</span></div>
+        <div>
+          <div class="check-label">Marcar el lunes como día fijo de revisión de métricas (30 minutos)</div>
+          <div class="check-sublabel">Instagram Insights + TikTok Analytics + LinkedIn · Ajusta lo que no funciona</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    Estrategia creada para <strong>Yosol Instalaciones</strong> · Aldaia, Valencia · <a href="https://yosol.es" target="_blank">yosol.es</a> · 960 667 111
+  </div>
+
+</div>
+
+<script>
+// ── PILLAR DATA ─────────────────────────────────────
+const pillarsData = [
+  {
+    icon: '⚡', title: 'El Ahorro Real', sub: '35% del contenido — El gancho más poderoso para el cliente particular',
+    color: '#f5a623', bg: 'rgba(245,166,35,0.1)',
+    formats: [
+      { ch: 'ig', chLabel: '📸 IG', type: 'Carrusel "Antes/Después"', freq: '1x semana', copy: '"De 180€/mes a 0€. Esta familia en Valencia lo consiguió. Así lo hicimos."' },
+      { ch: 'ig', chLabel: '📸 IG', type: 'Story con slider "¿Cuánto pagas?"', freq: '2x semana', copy: 'Encuesta: "¿Tu factura supera los 100€/mes?" → CTA a WhatsApp' },
+      { ch: 'tk', chLabel: '🎵 TikTok', type: 'Vídeo "Factura a 0€ en 30 días"', freq: '1x semana', copy: 'POV: muestras la app de monitorización con producción en tiempo real' },
+      { ch: 'li', chLabel: '💼 LinkedIn', type: 'Post con datos de retorno de inversión', freq: '1x semana', copy: '"¿Sabías que una instalación solar se amortiza en 5-7 años en Valencia?" + encuesta' },
+    ]
+  },
+  {
+    icon: '🎓', title: 'Educa & Desmitifica', sub: '30% del contenido — Rompe barreras y posiciónate como experto',
+    color: '#1a6faf', bg: 'rgba(26,111,175,0.1)',
+    formats: [
+      { ch: 'ig', chLabel: '📸 IG', type: 'Carrusel "3 mitos sobre solar"', freq: '1x semana', copy: '"MITO: Los paneles no funcionan en invierno. REALIDAD: En Valencia generamos el 70% incluso en enero."' },
+      { ch: 'tk', chLabel: '🎵 TikTok', type: 'Tutorial 60 seg "¿Cómo funciona la batería virtual?"', freq: '1x semana', copy: 'Explica con animación simple: generas de día, acumulas de noche' },
+      { ch: 'li', chLabel: '💼 LinkedIn', type: 'Guía de ayudas y subvenciones 2025', freq: '1x semana', copy: '"Todo lo que necesitas saber sobre las subvenciones al autoconsumo en España este año"' },
+      { ch: 'ig', chLabel: '📸 IG', type: 'Reels "¿Cuánto tardan en instalarse?"', freq: '1x semana', copy: 'Muestra la instalación completa en un día — "De 0 a solar en 6 horas"' },
+    ]
+  },
+  {
+    icon: '🏠', title: 'Proyectos Reales', sub: '20% del contenido — La prueba social más poderosa',
+    color: '#3a8c5c', bg: 'rgba(58,140,92,0.1)',
+    formats: [
+      { ch: 'tk', chLabel: '🎵 TikTok', type: 'Timelapse de instalación', freq: '1x semana', copy: '"8 horas de trabajo en 30 segundos. Aldaia, Valencia. Familia: ahorro estimado 1.800€/año."' },
+      { ch: 'ig', chLabel: '📸 IG', type: 'Reels testimonio de cliente', freq: '1x semana', copy: '"6 meses después de instalar solar. Esto es lo que me dijeron nuestros clientes en Aldaia."' },
+      { ch: 'li', chLabel: '💼 LinkedIn', type: 'Caso de éxito industrial', freq: '1x semana', copy: 'Nave en Valencia: 80 kW instalados. Ahorro anual: 14.000€. Amortización: 6 años.' },
+      { ch: 'ig', chLabel: '📸 IG', type: 'Post "Proyecto de la semana"', freq: '1x semana', copy: 'Foto de la instalación + datos: m² de paneles, kW instalados, ahorro estimado' },
+    ]
+  },
+  {
+    icon: '🌍', title: 'Sostenibilidad & Marca', sub: '15% del contenido — Conecta emocionalmente y humaniza Yosol',
+    color: '#e07b00', bg: 'rgba(224,123,0,0.1)',
+    formats: [
+      { ch: 'ig', chLabel: '📸 IG', type: 'Infografía impacto CO₂', freq: '1x semana', copy: '"En 2024 evitamos emitir X toneladas de CO₂. Equivale a X vuelos Madrid-NYC."' },
+      { ch: 'li', chLabel: '💼 LinkedIn', type: 'Detrás de cámaras del equipo', freq: '1x semana', copy: '"El equipo detrás de cada instalación. Conócenos." Foto del equipo en obra' },
+      { ch: 'tk', chLabel: '🎵 TikTok', type: '"Un día en Yosol" vlog corto', freq: '1x semana', copy: 'POV: acompañas al técnico desde el almacén hasta la instalación' },
+      { ch: 'ig', chLabel: '📸 IG', type: 'Story "Dato solar del día"', freq: '2x semana', copy: '"¿Sabías que España es el 2º país de Europa con más horas de sol? Aprovéchalas."' },
+    ]
+  }
+];
+
+let currentPillar = null;
+
+function togglePillar(id) {
+  const cards = document.querySelectorAll('.pillar-card');
+  const panel = document.getElementById('detailPanel');
+
+  if (currentPillar === id && panel.classList.contains('visible')) {
+    panel.classList.remove('visible');
+    cards.forEach(c => c.classList.remove('active'));
+    currentPillar = null;
+    return;
+  }
+
+  currentPillar = id;
+  const d = pillarsData[id];
+  cards.forEach(c => c.classList.remove('active'));
+  cards[id].classList.add('active');
+
+  panel.innerHTML = `
+    <div class="dh">
+      <div class="dh-icon" style="background:${d.bg};font-size:26px">${d.icon}</div>
+      <div>
+        <div class="dh-title" style="color:${d.color}">${d.title}</div>
+        <div class="dh-sub">${d.sub}</div>
+      </div>
+    </div>
+    <div class="formats-grid">
+      ${d.formats.map(f => `
+        <div class="fmt">
+          <span class="fmt-ch ch-${f.ch}">${f.chLabel}</span>
+          <div class="fmt-type">${f.type}</div>
+          <div class="fmt-freq">🕐 ${f.freq}</div>
+          <div class="fmt-copy">${f.copy}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  panel.classList.add('visible');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ── CHECKLIST ───────────────────────────────────────
+function toggleCheck(el) {
+  el.classList.toggle('done');
+  updateProgress();
+}
+
+function updateProgress() {
+  const items = document.querySelectorAll('.check-item');
+  const done = document.querySelectorAll('.check-item.done').length;
+  const total = items.length;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `Progreso: ${done} de ${total} tareas`;
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+</script>
+</body>
+</html>

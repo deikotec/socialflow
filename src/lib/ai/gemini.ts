@@ -17,13 +17,15 @@ export interface GeneratedIdea {
   visual_cues: string;
 }
 
-export async function generateContentIdeas(topic: string): Promise<GeneratedIdea[]> {
+export async function generateContentIdeas(
+  topic: string,
+): Promise<GeneratedIdea[]> {
   if (!apiKey) {
     throw new Error("AI is not configured (missing API Key).");
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
 
     const prompt = `
       ${SYSTEM_PROMPT_CONTENT_GENERATION}
@@ -36,7 +38,10 @@ export async function generateContentIdeas(topic: string): Promise<GeneratedIdea
     const text = response.text();
 
     // Clean up potential markdown formatting if the model disobeys
-    const jsonString = text.replace(/```json/g, "").replace(/```/g, "").trim();
+    const jsonString = text
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
 
     try {
       const ideas: GeneratedIdea[] = JSON.parse(jsonString);

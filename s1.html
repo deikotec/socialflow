@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estrategia de Historias Instagram — Yosol Instalaciones</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #FFB800;
+    --sun-bright: #FFD44A;
+    --sun-deep: #E6930A;
+    --dark: #09111F;
+    --dark2: #0E1A2E;
+    --dark3: #162236;
+    --white: #F5F0E8;
+    --muted: #8A9BB5;
+    --red: #FF4444;
+    --green: #2ECC71;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    overflow: hidden;
+  }
+
+  .sun-bg {
+    position: absolute;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,184,0,0.35) 0%, rgba(255,184,0,0.12) 40%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+    z-index: 0;
+  }
+
+  .sun-rays {
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    z-index: 0;
+    animation: rotateSun 30s linear infinite;
+  }
+
+  .sun-rays::before,
+  .sun-rays::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg, rgba(255,184,0,0.06) 10deg, transparent 20deg,
+      transparent 45deg, rgba(255,184,0,0.06) 55deg, transparent 65deg,
+      transparent 90deg, rgba(255,184,0,0.06) 100deg, transparent 110deg,
+      transparent 135deg, rgba(255,184,0,0.06) 145deg, transparent 155deg,
+      transparent 180deg, rgba(255,184,0,0.06) 190deg, transparent 200deg,
+      transparent 225deg, rgba(255,184,0,0.06) 235deg, transparent 245deg,
+      transparent 270deg, rgba(255,184,0,0.06) 280deg, transparent 290deg,
+      transparent 315deg, rgba(255,184,0,0.06) 325deg, transparent 335deg
+    );
+    border-radius: 50%;
+  }
+
+  @keyframes rotateSun { to { transform: translateX(-50%) rotate(360deg); } }
+  @keyframes pulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    50% { transform: translateX(-50%) scale(1.1); opacity: 0.8; }
+  }
+
+  .hero-tag {
+    position: relative;
+    z-index: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sun);
+    border: 1px solid rgba(255,184,0,0.3);
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero h1 {
+    position: relative;
+    z-index: 1;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 10vw, 130px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+
+  .hero h1 span {
+    color: var(--sun);
+    display: block;
+  }
+
+  .hero-sub {
+    position: relative;
+    z-index: 1;
+    font-size: 16px;
+    color: var(--muted);
+    margin-top: 24px;
+    max-width: 480px;
+    line-height: 1.7;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+
+  .hero-sub strong { color: var(--white); }
+
+  .hero-badge {
+    position: relative;
+    z-index: 1;
+    margin-top: 48px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.8s ease 0.3s both;
+  }
+
+  .badge {
+    background: rgba(255,184,0,0.1);
+    border: 1px solid rgba(255,184,0,0.2);
+    color: var(--sun);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: fadeUp 1s ease 0.6s both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--sun), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION COMMON ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--sun);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 560px;
+    margin-bottom: 60px;
+  }
+
+  hr.divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin: 0;
+  }
+
+  /* ── FUNNEL ── */
+  .funnel-section { padding-bottom: 0; }
+
+  .funnel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .funnel-card {
+    background: var(--dark2);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .funnel-card:first-child { border-radius: 16px 0 0 16px; }
+  .funnel-card:last-child { border-radius: 0 16px 16px 0; }
+
+  .funnel-card:hover { background: var(--dark3); }
+
+  .funnel-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+
+  .funnel-card.fase1::before { background: #4A90E2; }
+  .funnel-card.fase2::before { background: var(--sun); }
+  .funnel-card.fase3::before { background: var(--green); }
+
+  .funnel-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    line-height: 1;
+    opacity: 0.07;
+    position: absolute;
+    top: 20px;
+    right: 24px;
+  }
+
+  .funnel-phase {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .fase1 .funnel-phase { color: #4A90E2; }
+  .fase2 .funnel-phase { color: var(--sun); }
+  .fase3 .funnel-phase { color: var(--green); }
+
+  .funnel-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+
+  .funnel-card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .funnel-days {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .funnel-day {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.06);
+    color: var(--white);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── WEEKLY PLAN ── */
+  .week-section {}
+
+  .week-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .week-tab {
+    padding: 10px 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .week-tab:hover { border-color: var(--sun); color: var(--sun); }
+  .week-tab.active { background: var(--sun); color: var(--dark); border-color: var(--sun); }
+
+  .day-panel { display: none; }
+  .day-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  .day-header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 36px;
+    background: var(--dark2);
+    border-radius: 16px;
+    border-left: 4px solid var(--sun);
+  }
+
+  .day-emoji {
+    font-size: 48px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .day-meta {}
+  .day-meta h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .day-objective {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--sun);
+    background: rgba(255,184,0,0.1);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+
+  .day-meta p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .story-card {
+    background: var(--dark2);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .story-card:hover {
+    border-color: rgba(255,184,0,0.25);
+    transform: translateY(-3px);
+  }
+
+  .story-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--sun);
+    margin-bottom: 12px;
+    opacity: 0.7;
+  }
+
+  .story-card h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+
+  .story-card p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .story-tag {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+
+  .tag-encuesta { background: rgba(74,144,226,0.15); color: #4A90E2; }
+  .tag-video { background: rgba(255,184,0,0.12); color: var(--sun); }
+  .tag-dato { background: rgba(46,204,113,0.12); color: var(--green); }
+  .tag-cta { background: rgba(255,68,68,0.12); color: var(--red); }
+  .tag-pregunta { background: rgba(155,89,182,0.15); color: #A569BD; }
+  .tag-foto { background: rgba(241,196,15,0.12); color: #F4D03F; }
+  .tag-meme { background: rgba(26,188,156,0.15); color: #1ABC9C; }
+
+  /* ── PHONE MOCKUP PREVIEW ── */
+  .phone-strip {
+    background: var(--dark2);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 80px 20px;
+    overflow: hidden;
+  }
+
+  .phone-strip-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .phone-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .phone {
+    width: 140px;
+    height: 280px;
+    background: var(--dark3);
+    border-radius: 28px;
+    border: 2px solid rgba(255,255,255,0.12);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .phone:nth-child(2) { transform: translateY(20px); }
+  .phone:nth-child(3) { transform: translateY(-10px); }
+
+  .phone-notch {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 5px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 3px;
+  }
+
+  .phone-progress {
+    position: absolute;
+    top: 22px;
+    left: 8px;
+    right: 8px;
+    display: flex;
+    gap: 3px;
+  }
+
+  .phone-progress span {
+    height: 2px;
+    flex: 1;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+  }
+
+  .phone-progress span.active {
+    background: var(--sun);
+  }
+
+  .phone-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 12px 12px;
+  }
+
+  .phone-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  .phone-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-align: center;
+    line-height: 1.3;
+    color: var(--white);
+  }
+
+  .phone-sub {
+    font-size: 9px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  .phone.yellow { background: linear-gradient(160deg, #1a1200, #0d0a00); }
+  .phone.yellow .phone-text { color: var(--sun); }
+  .phone.blue { background: linear-gradient(160deg, #0a1628, #061020); }
+
+  .phone-strip-text h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .phone-strip-text p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .rule-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .rule-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .rule-list li::before {
+    content: '☀';
+    color: var(--sun);
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .rule-list li strong { color: var(--white); }
+
+  /* ── CONTENT TYPES ── */
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 60px;
+  }
+
+  .content-card {
+    padding: 32px 28px;
+    background: var(--dark2);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: all 0.25s;
+  }
+
+  .content-card:hover {
+    background: var(--dark3);
+    border-color: rgba(255,184,0,0.2);
+    transform: translateY(-4px);
+  }
+
+  .content-icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+  }
+
+  .content-card h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .content-card p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .content-example {
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: rgba(255,184,0,0.06);
+    border-left: 2px solid var(--sun);
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--sun-bright);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ── KPIs ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 60px;
+  }
+
+  .kpi-card {
+    padding: 32px 24px;
+    background: var(--dark2);
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: all 0.25s;
+  }
+
+  .kpi-card:hover {
+    border-color: rgba(255,184,0,0.3);
+    transform: translateY(-4px);
+  }
+
+  .kpi-icon { font-size: 32px; margin-bottom: 16px; }
+
+  .kpi-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    color: var(--sun);
+  }
+
+  .kpi-card p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* ── CANVA LINKS ── */
+  .canva-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-top: 60px;
+  }
+
+  .canva-card {
+    background: var(--dark2);
+    border-radius: 12px;
+    padding: 20px 14px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.25s;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .canva-card:hover {
+    background: var(--dark3);
+    border-color: rgba(255,184,0,0.3);
+    transform: translateY(-5px);
+  }
+
+  .canva-day-icon { font-size: 28px; }
+
+  .canva-day-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: var(--white);
+  }
+
+  .canva-day-sub {
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .canva-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--sun);
+    border: 1px solid rgba(255,184,0,0.3);
+    padding: 5px 10px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+
+  .canva-card:hover .canva-btn {
+    background: var(--sun);
+    color: var(--dark);
+    border-color: var(--sun);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px 20px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  footer strong { color: var(--sun); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .funnel-grid { grid-template-columns: 1fr; }
+    .funnel-card:first-child { border-radius: 16px 16px 0 0; }
+    .funnel-card:last-child { border-radius: 0 0 16px 16px; }
+    .day-panel.active { grid-template-columns: 1fr; }
+    .content-grid { grid-template-columns: 1fr 1fr; }
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .canva-grid { grid-template-columns: repeat(4, 1fr); }
+    .phone-strip-inner { grid-template-columns: 1fr; }
+    .phone-wrap { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .canva-grid { grid-template-columns: repeat(2, 1fr); }
+    .week-tabs { gap: 6px; }
+    .week-tab { font-size: 12px; padding: 8px 14px; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="sun-bg"></div>
+  <div class="sun-rays"></div>
+
+  <div class="hero-tag">@yosol.instalaciones · Estrategia Instagram</div>
+
+  <h1>
+    HISTORIAS QUE
+    <span>CONVIERTEN</span>
+  </h1>
+
+  <p class="hero-sub">
+    Un sistema completo de publicación diaria para <strong>@yosol.instalaciones</strong> diseñado para maximizar el alcance, la interacción y la captación de clientes con energía solar.
+  </p>
+
+  <div class="hero-badge">
+    <span class="badge">7 PLANTILLAS</span>
+    <span class="badge">PUBLICACIÓN DIARIA</span>
+    <span class="badge">EMBUDO DE CONVERSIÓN</span>
+    <span class="badge">MÁXIMO ENGAGEMENT</span>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ FUNNEL ══ -->
+<section class="funnel-section reveal">
+  <div class="section-label">El Embudo</div>
+  <div class="section-title">CÓMO FUNCIONA<br>LA ESTRATEGIA</div>
+  <p class="section-desc">Cada semana sigue el mismo ritmo de 3 fases que mueven al seguidor desde el primer impacto hasta pedir presupuesto.</p>
+
+  <div class="funnel-grid">
+    <div class="funnel-card fase1">
+      <div class="funnel-num">01</div>
+      <div class="funnel-phase">Fase 1 · Lun — Mar</div>
+      <h3>ATENCIÓN</h3>
+      <p>Capta miradas nuevas con preguntas provocadoras, datos impactantes y contenido detrás de cámaras. El objetivo es despertar curiosidad y ganar seguidores.</p>
+      <div class="funnel-days">
+        <span class="funnel-day">Lunes</span>
+        <span class="funnel-day">Martes</span>
+      </div>
+    </div>
+
+    <div class="funnel-card fase2">
+      <div class="funnel-num">02</div>
+      <div class="funnel-phase">Fase 2 · Mié — Jue</div>
+      <h3>EDUCACIÓN</h3>
+      <p>Posiciónate como el experto de confianza. Desmonta mitos, muestra proyectos reales y explica cómo funciona la energía solar de forma sencilla.</p>
+      <div class="funnel-days">
+        <span class="funnel-day">Miércoles</span>
+        <span class="funnel-day">Jueves</span>
+      </div>
+    </div>
+
+    <div class="funnel-card fase3">
+      <div class="funnel-num">03</div>
+      <div class="funnel-phase">Fase 3 · Vie — Dom</div>
+      <h3>CONVERSIÓN</h3>
+      <p>Empuja a la acción. Contenido viral el sábado para ganar alcance orgánico, CTA directo el viernes, y cierre reflexivo el domingo que genera expectativa.</p>
+      <div class="funnel-days">
+        <span class="funnel-day">Viernes</span>
+        <span class="funnel-day">Sábado</span>
+        <span class="funnel-day">Domingo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ PLAN SEMANAL ══ -->
+<section class="week-section reveal">
+  <div class="section-label">Plan Semanal</div>
+  <div class="section-title">QUÉ PUBLICAR<br>CADA DÍA</div>
+  <p class="section-desc">Haz clic en cada día para ver el guión exacto de las historias, el tipo de sticker y el objetivo de cada publicación.</p>
+
+  <div class="week-tabs">
+    <button class="week-tab active" onclick="showDay('lunes', this)">Lunes</button>
+    <button class="week-tab" onclick="showDay('martes', this)">Martes</button>
+    <button class="week-tab" onclick="showDay('miercoles', this)">Miércoles</button>
+    <button class="week-tab" onclick="showDay('jueves', this)">Jueves</button>
+    <button class="week-tab" onclick="showDay('viernes', this)">Viernes</button>
+    <button class="week-tab" onclick="showDay('sabado', this)">Sábado</button>
+    <button class="week-tab" onclick="showDay('domingo', this)">Domingo</button>
+  </div>
+
+  <!-- LUNES -->
+  <div id="lunes" class="day-panel active">
+    <div class="day-header">
+      <div class="day-emoji">☀️</div>
+      <div class="day-meta">
+        <div class="day-objective">Fase 1 — Atención</div>
+        <h2>LUNES: ARRANCA CON IMPACTO</h2>
+        <p>El objetivo es generar una primera impresión fuerte y conseguir que la gente interactúe desde el primer segundo. Usa una pregunta que active la curiosidad.</p>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 01</div>
+      <h4>Encuesta disparadora</h4>
+      <p>"¿Sabes cuánto podrías ahorrar en tu factura de la luz este año?"</p>
+      <span class="story-tag tag-encuesta">Encuesta ✓ Mucho / Poco idea</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 02</div>
+      <h4>Dato que sorprende</h4>
+      <p>"El sol da electricidad gratis. La media de nuestros clientes ahorra entre 800€ y 2.000€/año."</p>
+      <span class="story-tag tag-dato">Dato impactante</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 03</div>
+      <h4>Gancho para la semana</h4>
+      <p>"Esta semana te explicamos cómo. Activa las notificaciones 🔔"</p>
+      <span class="story-tag tag-cta">CTA suave</span>
+    </div>
+  </div>
+
+  <!-- MARTES -->
+  <div id="martes" class="day-panel">
+    <div class="day-header">
+      <div class="day-emoji">📸</div>
+      <div class="day-meta">
+        <div class="day-objective">Fase 1 — Humanizar</div>
+        <h2>MARTES: DETRÁS DE CÁMARAS</h2>
+        <p>Muestra el equipo trabajando, las instalaciones en curso y la realidad del día a día. Genera cercanía y confianza antes de intentar vender nada.</p>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 01</div>
+      <h4>Foto/vídeo de la obra</h4>
+      <p>Imagen o vídeo corto de una instalación en curso. Sin mostrar datos del cliente, solo el progreso del trabajo.</p>
+      <span class="story-tag tag-video">Vídeo / Foto real</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 02</div>
+      <h4>Contexto de la instalación</h4>
+      <p>"Hoy estamos en Valencia instalando paneles solares para una familia que ya no quiere pagar más de la cuenta 💪"</p>
+      <span class="story-tag tag-foto">Texto + Ubicación</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 03</div>
+      <h4>Slider de conocimiento</h4>
+      <p>"¿Conocías la energía solar? Desliza para valorar tu conocimiento ☀️"</p>
+      <span class="story-tag tag-encuesta">Slider emoji</span>
+    </div>
+  </div>
+
+  <!-- MIÉRCOLES -->
+  <div id="miercoles" class="day-panel">
+    <div class="day-header">
+      <div class="day-emoji">❌✅</div>
+      <div class="day-meta">
+        <div class="day-objective">Fase 2 — Educar</div>
+        <h2>MIÉRCOLES: MITO VS REALIDAD</h2>
+        <p>Desmonta las excusas y miedos que frenan a los clientes potenciales. Este formato genera muchísimas respuestas porque la gente quiere confirmar si tenía razón.</p>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 01</div>
+      <h4>El mito</h4>
+      <p>"MITO ❌: Los paneles solares no funcionan si hay nubes ☁️"</p>
+      <span class="story-tag tag-cta">Texto impactante</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 02</div>
+      <h4>La realidad</h4>
+      <p>"REALIDAD ✅: Funcionan con luz difusa. Un día nublado puede generar hasta el 25% de la producción máxima."</p>
+      <span class="story-tag tag-dato">Educación</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 03</div>
+      <h4>Encuesta de verificación</h4>
+      <p>"¿Creías este mito?" — Sí / No</p>
+      <span class="story-tag tag-encuesta">Encuesta</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 04</div>
+      <h4>Invitación a preguntar</h4>
+      <p>"Cuéntanos qué otras dudas tienes sobre la energía solar 👇"</p>
+      <span class="story-tag tag-pregunta">Caja de preguntas</span>
+    </div>
+  </div>
+
+  <!-- JUEVES -->
+  <div id="jueves" class="day-panel">
+    <div class="day-header">
+      <div class="day-emoji">🏗️</div>
+      <div class="day-meta">
+        <div class="day-objective">Fase 2 — Confianza</div>
+        <h2>JUEVES: PROYECTO REAL</h2>
+        <p>Los resultados reales son el argumento más poderoso. Muestra instalaciones completadas, los kW instalados y el ahorro estimado. Sin datos personales del cliente.</p>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 01</div>
+      <h4>Foto del proyecto terminado</h4>
+      <p>"PROYECTO COMPLETADO ✅ — Instalación fotovoltaica en Valencia"</p>
+      <span class="story-tag tag-foto">Foto resultado final</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 02</div>
+      <h4>Los datos del proyecto</h4>
+      <p>"X kW instalados. Factura estimada: 0€/mes. Una familia que ya produce su propia energía."</p>
+      <span class="story-tag tag-dato">Estadísticas</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 03</div>
+      <h4>Genera respuestas directas</h4>
+      <p>"¿Quieres ver más proyectos? Responde con 🔥 y te mostramos más."</p>
+      <span class="story-tag tag-pregunta">Respuesta directa ← oro</span>
+    </div>
+  </div>
+
+  <!-- VIERNES -->
+  <div id="viernes" class="day-panel">
+    <div class="day-header">
+      <div class="day-emoji">💬</div>
+      <div class="day-meta">
+        <div class="day-objective">Fase 3 — Conversión</div>
+        <h2>VIERNES: PRESUPUESTO GRATIS</h2>
+        <p>Elimina la barrera de entrada. El mayor freno del cliente potencial es pensar que pedir información les compromete. Demuestra que no es así.</p>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 01</div>
+      <h4>Identifica el problema</h4>
+      <p>"¿Estás pensando en placas solares pero no sabes por dónde empezar? 🤔"</p>
+      <span class="story-tag tag-pregunta">Empatía</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 02</div>
+      <h4>La oferta sin riesgo</h4>
+      <p>"En Yosol te hacemos un estudio GRATIS. Sin compromiso. Sin letra pequeña. Nos encargamos de todo."</p>
+      <span class="story-tag tag-dato">Propuesta de valor</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 03</div>
+      <h4>Enlace a WhatsApp</h4>
+      <p>Sticker de enlace directo a WhatsApp o web. Si hay promoción activa, añade cuenta atrás.</p>
+      <span class="story-tag tag-cta">Link WhatsApp / Web</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 04</div>
+      <h4>Urgencia y cercanía</h4>
+      <p>"Escríbenos ahora y te respondemos hoy mismo 📲"</p>
+      <span class="story-tag tag-cta">CTA urgente</span>
+    </div>
+  </div>
+
+  <!-- SÁBADO -->
+  <div id="sabado" class="day-panel">
+    <div class="day-header">
+      <div class="day-emoji">😄</div>
+      <div class="day-meta">
+        <div class="day-objective">Fase 3 — Viralidad</div>
+        <h2>SÁBADO: CONTENIDO VIRAL</h2>
+        <p>El contenido que se comparte es el que genera alcance orgánico. Un buen meme o comparativa divertida puede llegar a personas que jamás te seguirían por contenido técnico.</p>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 01</div>
+      <h4>El meme de la semana</h4>
+      <p>"😭 Yo pagando 200€ de luz vs. 😎 Mis vecinos con placas solares"</p>
+      <span class="story-tag tag-meme">Humor relatable</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 02</div>
+      <h4>Dato sorprendente</h4>
+      <p>"¿Sabías que cargador de vehículo eléctrico + placas solares = cargar tu coche GRATIS cada día?"</p>
+      <span class="story-tag tag-dato">Dato impactante</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 03</div>
+      <h4>Encuesta divertida</h4>
+      <p>"¿Cuándo te pasas al solar?" — Este año / El año que viene / Cuando me convenzan 😄</p>
+      <span class="story-tag tag-encuesta">Encuesta fun</span>
+    </div>
+  </div>
+
+  <!-- DOMINGO -->
+  <div id="domingo" class="day-panel">
+    <div class="day-header">
+      <div class="day-emoji">🌅</div>
+      <div class="day-meta">
+        <div class="day-objective">Fase 3 — Fidelizar</div>
+        <h2>DOMINGO: RESUMEN + TEASER</h2>
+        <p>Cierra la semana mostrando resultados y sembrando la curiosidad de la próxima. Convierte seguidores casuales en seguidores fieles que esperan tu contenido.</p>
+      </div>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 01</div>
+      <h4>Resumen de la semana</h4>
+      <p>"Esta semana hemos instalado X paneles solares en Valencia ☀️"</p>
+      <span class="story-tag tag-dato">Balance semanal</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 02</div>
+      <h4>Anticipo de la próxima semana</h4>
+      <p>"La próxima semana te contamos cuánto tarda en amortizarse una instalación solar. No te lo pierdas."</p>
+      <span class="story-tag tag-pregunta">Teaser</span>
+    </div>
+    <div class="story-card">
+      <div class="story-num">HISTORIA 03</div>
+      <h4>Puerta abierta</h4>
+      <p>"Si tienes dudas sobre la energía solar, escríbenos. Estamos aquí 👇"</p>
+      <span class="story-tag tag-cta">CTA amable</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ REGLAS DE ORO ══ -->
+<div class="phone-strip">
+  <div class="phone-strip-inner">
+    <div class="phone-strip-text reveal">
+      <div class="section-label">Reglas de Oro</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:52px; line-height:1; margin-bottom:20px;">CÓMO MAXIMIZAR<br>EL ALCANCE</h2>
+      <p>El algoritmo de Instagram premia las historias que generan interacción real. Estas reglas son las que marcan la diferencia entre historias invisibles e historias virales.</p>
+      <ul class="rule-list">
+        <li><strong>Mínimo 1 sticker interactivo por día</strong> — encuesta, pregunta, slider o cuenta atrás. Es lo que más dispara el alcance.</li>
+        <li><strong>Entre 3 y 5 historias al día</strong> — más de 5 y la gente las abandona. El algoritmo lo penaliza.</li>
+        <li><strong>El gancho en las 2 primeras</strong> — son las más vistas. Pon el contenido más fuerte al inicio.</li>
+        <li><strong>Responde siempre a quien te escriba</strong> — una respuesta te mete en su bandeja de entrada.</li>
+        <li><strong>Etiqueta la ubicación</strong> — Valencia, Aldaia, zona del proyecto. Capta público local.</li>
+        <li><strong>Publica entre 9h–11h o 19h–21h</strong> — son las horas de mayor actividad en Instagram España.</li>
+      </ul>
+    </div>
+
+    <div class="phone-wrap reveal">
+      <div class="phone blue">
+        <div class="phone-notch"></div>
+        <div class="phone-progress">
+          <span class="active"></span><span class="active"></span><span></span><span></span>
+        </div>
+        <div class="phone-content">
+          <div class="phone-icon">🏗️</div>
+          <div class="phone-text">HOY EN OBRA</div>
+          <div class="phone-sub">Valencia · Instalación en curso</div>
+        </div>
+      </div>
+      <div class="phone yellow">
+        <div class="phone-notch"></div>
+        <div class="phone-progress">
+          <span class="active"></span><span></span><span></span>
+        </div>
+        <div class="phone-content">
+          <div class="phone-icon">☀️</div>
+          <div class="phone-text">¿CUÁNTO PAGAS DE LUZ?</div>
+          <div class="phone-sub">Encuesta activa →</div>
+        </div>
+      </div>
+      <div class="phone blue">
+        <div class="phone-notch"></div>
+        <div class="phone-progress">
+          <span class="active"></span><span class="active"></span><span class="active"></span>
+        </div>
+        <div class="phone-content">
+          <div class="phone-icon">✅</div>
+          <div class="phone-text">PROYECTO COMPLETADO</div>
+          <div class="phone-sub">Aldaia · 6kW instalados</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ TIPOS DE CONTENIDO ══ -->
+<section class="reveal">
+  <div class="section-label">Arsenal de Contenido</div>
+  <div class="section-title">FORMATOS PARA<br>NUNCA QUEDARTE SIN IDEAS</div>
+  <p class="section-desc">Cuando no sepas qué publicar, elige uno de estos formatos probados y rellénalo con el contenido de la semana.</p>
+
+  <div class="content-grid">
+    <div class="content-card">
+      <div class="content-icon">🔄</div>
+      <h4>ANTES / DESPUÉS</h4>
+      <p>Tejado vacío vs. instalación terminada. El contraste visual más efectivo de las redes sociales.</p>
+      <div class="content-example">"Tejado sin aprovechar → Generando electricidad gratis cada día ☀️"</div>
+    </div>
+    <div class="content-card">
+      <div class="content-icon">🧮</div>
+      <h4>CALCULADORA</h4>
+      <p>Ayuda al seguidor a visualizar su ahorro específico. Personalización = mayor engagement.</p>
+      <div class="content-example">"Con 30m² de tejado → ahorras ~1.400€/año. ¿Cuántos m² tienes tú?"</div>
+    </div>
+    <div class="content-card">
+      <div class="content-icon">❓</div>
+      <h4>FAQ</h4>
+      <p>Responde las preguntas más frecuentes de tus clientes. Cada respuesta elimina una objeción.</p>
+      <div class="content-example">"¿Cuánto tarda una instalación? Te lo explicamos en 60 segundos ⏱"</div>
+    </div>
+    <div class="content-card">
+      <div class="content-icon">🎬</div>
+      <h4>PROCESO PASO A PASO</h4>
+      <p>Muestra cómo es el proceso completo de principio a fin. Reduce el miedo a lo desconocido.</p>
+      <div class="content-example">"Así es una instalación solar de Yosol: del primer contacto a la factura 0€"</div>
+    </div>
+    <div class="content-card">
+      <div class="content-icon">💡</div>
+      <h4>DATO CURIOSO</h4>
+      <p>Cifras que sorprenden y se comparten solas. Cuanto más inesperado, mejor.</p>
+      <div class="content-example">"El sol produce más energía en 1 hora de la que el mundo consume en un año"</div>
+    </div>
+    <div class="content-card">
+      <div class="content-icon">🔌</div>
+      <h4>SERVICIO DESTACADO</h4>
+      <p>Rota entre tus servicios: cargadores VE, clima, líneas de vida, legalizaciones...</p>
+      <div class="content-example">"¿Tienes coche eléctrico? Instala el cargador y cárgalo con tus propios paneles"</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ KPIs ══ -->
+<section class="reveal">
+  <div class="section-label">Métricas</div>
+  <div class="section-title">QUÉ MIRAR<br>CADA SEMANA</div>
+  <p class="section-desc">En Instagram → Estadísticas → Historias. Revisa estos 4 indicadores cada lunes para saber qué funcionó y qué mejorar.</p>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon">👁️</div>
+      <h3>ALCANCE</h3>
+      <p>Cuántas personas únicas vieron al menos una historia. Si crece semana a semana, vas bien.</p>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">💬</div>
+      <h3>INTERACCIONES</h3>
+      <p>Respuestas + stickers completados. Es el indicador más importante para el algoritmo.</p>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">📊</div>
+      <h3>RETENCIÓN</h3>
+      <p>Cuánta gente llega a la última historia. Si cae mucho entre la 1ª y la última, hay que mejorar las intermedias.</p>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🔗</div>
+      <h3>CLICS EN ENLACE</h3>
+      <p>Cuántos han tocado el enlace a WhatsApp o la web. Este es el número que se convierte en clientes.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ PLANTILLAS CANVA ══ -->
+<section class="reveal">
+  <div class="section-label">Plantillas Canva</div>
+  <div class="section-title">TUS 7 PLANTILLAS<br>LISTAS PARA USAR</div>
+  <p class="section-desc">Cada plantilla está guardada en tu cuenta de Canva. Haz clic para abrirla, cambia el texto con el contenido de esa semana y publica en menos de 5 minutos.</p>
+
+  <div class="canva-grid">
+    <a href="https://www.canva.com/d/wANCZzvaHOV3nqt" target="_blank" class="canva-card">
+      <div class="canva-day-icon">☀️</div>
+      <div class="canva-day-label">LUNES</div>
+      <div class="canva-day-sub">Encuesta<br>Dato impactante</div>
+      <span class="canva-btn">Abrir →</span>
+    </a>
+    <a href="https://www.canva.com/d/w7oUnxyRTiVj5cR" target="_blank" class="canva-card">
+      <div class="canva-day-icon">📸</div>
+      <div class="canva-day-label">MARTES</div>
+      <div class="canva-day-sub">Detrás de<br>cámaras</div>
+      <span class="canva-btn">Abrir →</span>
+    </a>
+    <a href="https://www.canva.com/d/VEzshSZaaVEuhMb" target="_blank" class="canva-card">
+      <div class="canva-day-icon">❌✅</div>
+      <div class="canva-day-label">MIÉRCOLES</div>
+      <div class="canva-day-sub">Mito vs<br>Realidad</div>
+      <span class="canva-btn">Abrir →</span>
+    </a>
+    <a href="https://www.canva.com/d/cEbvBjjL34l2wBY" target="_blank" class="canva-card">
+      <div class="canva-day-icon">🏗️</div>
+      <div class="canva-day-label">JUEVES</div>
+      <div class="canva-day-sub">Proyecto<br>completado</div>
+      <span class="canva-btn">Abrir →</span>
+    </a>
+    <a href="https://www.canva.com/d/6GidZPVUmYDu_Kd" target="_blank" class="canva-card">
+      <div class="canva-day-icon">💬</div>
+      <div class="canva-day-label">VIERNES</div>
+      <div class="canva-day-sub">Presupuesto<br>gratis · CTA</div>
+      <span class="canva-btn">Abrir →</span>
+    </a>
+    <a href="https://www.canva.com/d/zacUI6qkEvmx9zP" target="_blank" class="canva-card">
+      <div class="canva-day-icon">😄</div>
+      <div class="canva-day-label">SÁBADO</div>
+      <div class="canva-day-sub">Humor<br>Viral</div>
+      <span class="canva-btn">Abrir →</span>
+    </a>
+    <a href="https://www.canva.com/d/ZvEVhqUrAcqEGn_" target="_blank" class="canva-card">
+      <div class="canva-day-icon">🌅</div>
+      <div class="canva-day-label">DOMINGO</div>
+      <div class="canva-day-sub">Resumen<br>semanal</div>
+      <span class="canva-btn">Abrir →</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  Estrategia creada para <strong>@yosol.instalaciones</strong> · Energía solar fotovoltaica · Valencia<br>
+  <span style="opacity:0.4; font-size:11px; margin-top:8px; display:block;">yosol.es · 960 667 111 · info@yosol.es</span>
+</footer>
+
+<script>
+  // ── TAB SWITCHER ──
+  function showDay(day, btn) {
+    document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(day).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── SCROLL REVEAL ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // stagger children
+        e.target.querySelectorAll('.funnel-card, .story-card, .content-card, .kpi-card, .canva-card').forEach((el, i) => {
+          el.style.transitionDelay = (i * 0.08) + 's';
+          el.classList.add('reveal', 'visible');
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

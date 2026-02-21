@@ -58,7 +58,7 @@ const SocialMediaEmbed = ({ url }: { url?: string }) => {
             className="w-full max-w-[320px] h-[400px]"
             frameBorder="0"
             scrolling="no"
-            allowtransparency="true"
+            allowTransparency={true}
           ></iframe>
         </div>
       );
@@ -110,6 +110,16 @@ const DrivePreview = ({
   );
 };
 
+interface ContentModalProps {
+  content: ContentPiece | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (id: string, data: Partial<ContentPiece>) => Promise<void>;
+  onDelete: (id: string) => void;
+  team?: TeamMember[];
+  companyDriveLink?: string;
+}
+
 export function ContentModal({
   content,
   isOpen,
@@ -118,7 +128,7 @@ export function ContentModal({
   onDelete,
   team = [],
   companyDriveLink,
-}: ContentModalProps & { companyDriveLink?: string }) {
+}: ContentModalProps) {
   const { currentCompany } = useAuth();
   const { toast } = useToast();
   const [formData, setFormData] = useState<Partial<ContentPiece>>({});
@@ -149,28 +159,32 @@ export function ContentModal({
 
     try {
       for (const file of fileArray) {
-        const reader = new FileReader();
-        const base64Content = await new Promise<string>((resolve) => {
-          reader.onload = (e) =>
-            resolve((e.target?.result as string).split(",")[1]);
-          reader.readAsDataURL(file);
-        });
-
-        const result = await uploadFileAction(
-          currentCompany.id,
-          currentCompany.drive_folder_id,
-          file.name,
-          base64Content,
-          file.type,
-          formData.scheduledDate,
-          formData.format,
+        const uploadFormData = new FormData();
+        uploadFormData.append("companyId", currentCompany.id);
+        uploadFormData.append(
+          "rootFolderId",
+          currentCompany.drive_folder_id || "",
         );
+        uploadFormData.append("originalFileName", file.name);
+        uploadFormData.append("mimeType", file.type);
+        if (formData.scheduledDate) {
+          uploadFormData.append(
+            "scheduledDate",
+            new Date(formData.scheduledDate).toISOString(),
+          );
+        }
+        if (formData.format) {
+          uploadFormData.append("contentFormat", formData.format);
+        }
+        uploadFormData.append("file", file);
+
+        const result = await uploadFileAction(uploadFormData);
 
         if (result.success) {
           if (formData.format === "carousel") {
             newCarouselFiles.push({
-              drive_file_id: result.fileId,
-              drive_link: result.webViewLink,
+              drive_file_id: result.fileId ?? "",
+              drive_link: result.webViewLink ?? "",
               mimeType: file.type,
               order: newCarouselFiles.length,
               name: file.name,
@@ -178,8 +192,8 @@ export function ContentModal({
           } else {
             setFormData((prev) => ({
               ...prev,
-              drive_link: result.webViewLink,
-              drive_file_id: result.fileId,
+              drive_link: result.webViewLink ?? undefined,
+              drive_file_id: result.fileId ?? undefined,
             }));
             toast({ title: "Archivo subido a Drive" });
             break;

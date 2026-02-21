@@ -199,7 +199,8 @@ export default async function PublicSharePage({
                     <div className="flex gap-1">
                       {(
                         content.platforms ||
-                        (content.platform ? [content.platform] : [])
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        ((content as any).platform ? [(content as any).platform] : [])
                       ).map((p: string) => (
                         <Badge key={p} variant="outline" className="uppercase">
                           {p}

@@ -5,7 +5,7 @@ import { StrategyCards } from "@/components/domain/dashboard/strategy-cards";
 import { TeamSidebar } from "@/components/domain/dashboard/team-sidebar";
 import { getContent } from "@/actions/content-actions";
 import { CalendarView } from "@/components/domain/dashboard/calendar/calendar-view";
-import { StrategyBlock, ContentPiece } from "@/types";
+import { ContentPiece } from "@/types";
 import { useEffect, useState } from "react";
 import { BarChart3, Users } from "lucide-react";
 
@@ -40,14 +40,7 @@ export default function HomePage() {
     return <div className="p-8">Please select a company.</div>;
   }
 
-  // Use real data or fallbacks
-  const strategies = currentCompany.strategy?.length
-    ? currentCompany.strategy
-    : ([
-        { title: "Valor", percentage: 70, type: "Valor", keywords: [] },
-        { title: "Viral", percentage: 20, type: "Viral", keywords: [] },
-        { title: "Venta", percentage: 10, type: "Venta", keywords: [] },
-      ] as StrategyBlock[]);
+  const pillars = currentCompany.aiStrategy?.pillars || [];
 
   const team = currentCompany.team || [];
 
@@ -68,10 +61,7 @@ export default function HomePage() {
           </h3>
           {/* Force single column layout for sidebar */}
           <div className="[&>div>div]:grid-cols-1 [&>div>div]:gap-3 [&>div>h2]:hidden">
-            <StrategyCards
-              strategies={strategies}
-              weeklyPostCount={currentCompany.settings?.weeklyPostCount}
-            />
+            <StrategyCards pillars={pillars} />
           </div>
         </div>
 

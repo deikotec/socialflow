@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
   Target, // Funnel/Embudo
+  Lightbulb, // Estrategia
   Sparkles, // Creation/Creation
   BarChart3, // Stats/Estadísticas
   Settings,
@@ -22,6 +23,7 @@ interface NavItem {
 const navigation: NavItem[] = [
   { name: "Inicio", href: "/home", icon: Home },
   { name: "Embudo", href: "/funnel", icon: Target },
+  { name: "Estrategia", href: "/estrategia", icon: Lightbulb },
   { name: "Creación", href: "/creation", icon: Sparkles },
   { name: "Estadísticas", href: "/stats", icon: BarChart3 },
   { name: "Configuración", href: "/settings", icon: Settings },

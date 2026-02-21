@@ -136,7 +136,6 @@ export function CalendarView({ content, onContentUpdate }: CalendarViewProps) {
     // Create a temporary "new" content piece
     const newPiece: Partial<ContentPiece> = {
       scheduledDate: date,
-      platform: "instagram", // Should be platforms array really, but this is default
       platforms: ["instagram"],
       status: "idea",
       title: "",

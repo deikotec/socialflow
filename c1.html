@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yosol · Biblioteca de Contenido 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ee;
+  --surface: #ede9df;
+  --card: #ffffff;
+  --border: rgba(0,0,0,0.08);
+  --sun: #f5a623;
+  --sun-deep: #c97d00;
+  --sky: #1a6faf;
+  --sky-light: #e8f3fb;
+  --green: #2e7d52;
+  --green-light: #e6f4ec;
+  --text: #1a1814;
+  --muted: #7a7260;
+  --insta: #e1306c;
+  --tiktok: #111;
+  --linkedin: #0077b5;
+  --tag-carousel: #f5a623;
+  --tag-reels: #e1306c;
+  --tag-linkedin: #0077b5;
+  --shadow: 0 4px 24px rgba(0,0,0,0.07);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.13);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+}
+
+/* ── STICKY HEADER ── */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(247,244,238,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.top-bar-brand {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--sky);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.top-bar-brand span { color: var(--sun-deep); }
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+  color: var(--muted);
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--text);
+  color: #fff;
+  border-color: var(--text);
+}
+.filter-btn.f-carousel.active { background: var(--tag-carousel); border-color: var(--tag-carousel); }
+.filter-btn.f-reels.active { background: var(--tag-reels); border-color: var(--tag-reels); }
+.filter-btn.f-linkedin.active { background: var(--tag-linkedin); border-color: var(--tag-linkedin); }
+.counter {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ── MAIN WRAPPER ── */
+.wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  margin-bottom: 52px;
+  animation: fadeUp 0.5s ease both;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sun-deep);
+  margin-bottom: 16px;
+}
+h1 {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(30px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+h1 em { color: var(--sky); font-style: normal; }
+.page-sub {
+  margin-top: 12px;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.65;
+}
+
+/* ── ENGAGEMENT LEGEND ── */
+.eng-legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+  padding: 20px 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.5s 0.1s ease both;
+}
+.eng-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); }
+.eng-icon { font-size: 18px; }
+.eng-label { font-weight: 600; color: var(--text); }
+
+/* ── CONTENT CARD ── */
+.content-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: fadeUp 0.5s ease both;
+  transition: box-shadow 0.2s;
+}
+.content-card:hover { box-shadow: var(--shadow-lg); }
+
+/* Card header */
+.card-header {
+  padding: 26px 30px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--bg);
+}
+.card-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 3px 10px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.card-meta { flex: 1; }
+.card-title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.card-tags { display: flex; gap: 7px; flex-wrap: wrap; }
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border-radius: 100px;
+  padding: 3px 11px;
+}
+.tag-format-carousel { background: rgba(245,166,35,0.15); color: var(--sun-deep); }
+.tag-format-reels    { background: rgba(225,48,108,0.12); color: var(--insta); }
+.tag-format-linkedin { background: rgba(0,119,181,0.12);  color: var(--linkedin); }
+.tag-format-tiktok   { background: rgba(0,0,0,0.07);      color: #111; }
+.tag-ch-ig   { background: rgba(225,48,108,0.08); color: var(--insta); }
+.tag-ch-tk   { background: rgba(0,0,0,0.06);      color: #333; }
+.tag-ch-li   { background: rgba(0,119,181,0.1);   color: var(--linkedin); }
+.tag-pillar  { background: rgba(46,125,82,0.1);   color: var(--green); }
+
+/* Engagement targets */
+.eng-targets {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 30px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(90deg, rgba(245,166,35,0.04), transparent);
+}
+.eng-target {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.eng-target strong { color: var(--text); font-weight: 600; }
+
+/* Card body sections */
+.card-body { padding: 28px 30px; }
+.section-h {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-h::after { content:''; flex:1; height:1px; background: var(--border); }
+
+/* ── CAROUSEL SLIDES ── */
+.slides-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  margin-bottom: 28px;
+}
+.slide {
+  flex-shrink: 0;
+  width: 200px;
+  min-height: 200px;
+  border-radius: 16px;
+  padding: 18px 16px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.slide-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 8px;
+}
+.slide-role {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.55;
+  margin-bottom: 6px;
+}
+.slide-text {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.slide-subtext {
+  font-size: 11px;
+  line-height: 1.45;
+  opacity: 0.75;
+  margin-top: 8px;
+}
+.slide-cta {
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+  background: rgba(255,255,255,0.25);
+  border-radius: 8px;
+  padding: 5px 10px;
+  display: inline-block;
+}
+.bg-sun-warm { background: linear-gradient(135deg, #f5a623, #e07b00); color: #fff; }
+.bg-sky-deep { background: linear-gradient(135deg, #1a6faf, #0d4f87); color: #fff; }
+.bg-dark-text { background: linear-gradient(135deg, #1a1814, #2d2820); color: #fff; }
+.bg-white-clean { background: #fff; color: var(--text); border: 1px solid var(--border) !important; }
+.bg-green-nature { background: linear-gradient(135deg, #2e7d52, #1a5235); color: #fff; }
+.bg-sun-light { background: linear-gradient(135deg, #fff8eb, #ffecc0); color: var(--sun-deep); }
+.bg-sky-light { background: linear-gradient(135deg, #e8f3fb, #c8e4f5); color: var(--sky); }
+.bg-contrast { background: linear-gradient(135deg, #f7f4ee, #ede9df); color: var(--text); }
+.bg-alert-red { background: linear-gradient(135deg, #c0392b, #922b21); color: #fff; }
+.bg-soft-green { background: linear-gradient(135deg, #e6f4ec, #c8e8d4); color: var(--green); }
+
+/* ── REELS / TIKTOK ── */
+.reel-structure {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.reel-meta-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+}
+.reel-meta-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+.reel-meta-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.scenes-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+.scene {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+.scene-marker {
+  background: var(--sun);
+  color: #fff;
+  border-radius: 10px;
+  padding: 6px 0;
+  text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.scene-body {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.scene-time {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+.scene-what { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.scene-how { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.scene-text-overlay {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 11px;
+  background: rgba(245,166,35,0.15);
+  color: var(--sun-deep);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-weight: 600;
+}
+
+/* ── GUION BOX ── */
+.guion-box {
+  background: #1a1814;
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 28px;
+  color: #f0ead8;
+  font-family: 'Barlow', sans-serif;
+}
+.guion-box p { font-size: 14px; line-height: 1.75; }
+.guion-box .g-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sun);
+  margin-bottom: 10px;
+}
+.guion-box .hook { color: #ffd080; font-weight: 600; }
+.guion-box .dev  { color: #f0ead8; }
+.guion-box .cta  { color: #80e8c0; font-weight: 600; }
+.guion-sep { height: 1px; background: rgba(255,255,255,0.08); margin: 12px 0; }
+
+/* ── LINKEDIN ── */
+.linkedin-post {
+  background: #f3f6f9;
+  border: 1px solid #d9e3ec;
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.li-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.li-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sun), var(--sky));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.li-name { font-size: 14px; font-weight: 700; color: #1a1814; }
+.li-role { font-size: 12px; color: #777; }
+.li-body { font-size: 14px; color: #333; line-height: 1.75; white-space: pre-line; }
+.li-body .li-hook { font-weight: 700; font-size: 15px; color: #1a1814; }
+.li-body .li-cta { color: var(--linkedin); font-weight: 600; }
+.li-hashtags { margin-top: 12px; font-size: 12px; color: var(--linkedin); }
+.li-reactions {
+  margin-top: 14px;
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: #888;
+  padding-top: 12px;
+  border-top: 1px solid #d9e3ec;
+}
+
+/* ── DESCRIPTION BOX ── */
+.desc-box {
+  background: var(--sky-light);
+  border: 1px solid rgba(26,111,175,0.15);
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-bottom: 0;
+}
+.desc-box .desc-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sky);
+  margin-bottom: 10px;
+}
+.desc-box .desc-text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.7;
+  white-space: pre-line;
+}
+.desc-box .desc-tags {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--sky);
+  font-weight: 500;
+}
+
+/* ── STRATEGY NOTE ── */
+.strategy-note {
+  background: rgba(46,125,82,0.07);
+  border-left: 3px solid var(--green);
+  border-radius: 0 10px 10px 0;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--green);
+  line-height: 1.55;
+}
+.strategy-note strong { font-weight: 700; }
+
+/* ── DIVIDER ── */
+.card-divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .top-bar { flex-direction: column; align-items: flex-start; padding: 12px 16px; }
+  .card-header { flex-direction: column; }
+  .reel-structure { grid-template-columns: 1fr; }
+  .card-body { padding: 20px 18px; }
+  .card-header { padding: 18px 18px 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     STICKY TOP BAR
+══════════════════════════════════════════ -->
+<div class="top-bar">
+  <div class="top-bar-brand">☀ Yosol · <span>Biblioteca de Contenido</span></div>
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterCards('all', this)">Todos (15)</button>
+    <button class="filter-btn f-carousel" onclick="filterCards('carousel', this)">🟧 Carrusel</button>
+    <button class="filter-btn f-reels" onclick="filterCards('reels', this)">🎬 Reels / TikTok</button>
+    <button class="filter-btn f-linkedin" onclick="filterCards('linkedin', this)">💼 LinkedIn</button>
+  </div>
+  <div class="counter" id="counter">Mostrando 15 de 15</div>
+</div>
+
+<div class="wrapper">
+
+<!-- ══ PAGE HEADER ══ -->
+<div class="page-header">
+  <div class="eyebrow">☀ Yosol Instalaciones · Valencia</div>
+  <h1>15 Contenidos Listos<br>para <em>Publicar</em></h1>
+  <p class="page-sub">Cada idea incluye estructura de engagement, slides o escenas, guion y descripción completa. Tono: profesional pero accesible. Estilo: directo, útil, humano.</p>
+</div>
+
+<!-- ══ ENGAGEMENT LEGEND ══ -->
+<div class="eng-legend">
+  <div class="eng-item"><span class="eng-icon">❤️</span><span><span class="eng-label">Like</span> — Hook emocional o dato impactante en la portada</span></div>
+  <div class="eng-item"><span class="eng-icon">💬</span><span><span class="eng-label">Comentario</span> — Pregunta directa al final del post</span></div>
+  <div class="eng-item"><span class="eng-icon">🔖</span><span><span class="eng-label">Guardado</span> — Contenido educativo con información útil y accionable</span></div>
+  <div class="eng-item"><span class="eng-icon">↗️</span><span><span class="eng-label">Compartido</span> — Historia identificable o dato que la gente quiere pasar</span></div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 01 — CARRUSEL: Antes/Después factura
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="carousel">
+  <div class="card-header">
+    <div class="card-num">#01</div>
+    <div class="card-meta">
+      <div class="card-title">De 180€/mes a 0€. Esta familia en Valencia lo consiguió.</div>
+      <div class="card-tags">
+        <span class="tag tag-format-carousel">🟧 Carrusel</span>
+        <span class="tag tag-ch-ig">📸 Instagram</span>
+        <span class="tag tag-pillar">💰 Pilar: Ahorro Real</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>❤️</span><strong>Like:</strong>&nbsp;portada con número impactante</div>
+    <div class="eng-target"><span>🔖</span><strong>Guardado:</strong>&nbsp;datos reales que quieren releer</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;pregunta final "¿cuánto pagas tú?"</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;la mandan a familiares</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia:</strong> El antes/después de una factura real activa el FOMO (miedo a perderse el ahorro). El hook numérico para el scroll, la progresión narrativa genera deseo, y la pregunta final invita al comentario.</div>
+
+    <div class="section-h">Estructura de slides (8 slides)</div>
+    <div class="slides-track">
+      <div class="slide bg-dark-text">
+        <div class="slide-num">PORTADA</div>
+        <div class="slide-text">De pagar 180€/mes a 0€ en luz. Esta familia en Valencia lo hizo.</div>
+        <div class="slide-subtext">→ Desliza para ver cómo</div>
+      </div>
+      <div class="slide bg-white-clean">
+        <div class="slide-num">SLIDE 2</div>
+        <div class="slide-role">El problema</div>
+        <div class="slide-text">En verano su factura llegaba a 220€. En invierno, 150€. Un gasto fijo que nunca bajaba.</div>
+      </div>
+      <div class="slide bg-sun-warm">
+        <div class="slide-num">SLIDE 3</div>
+        <div class="slide-role">La decisión</div>
+        <div class="slide-text">En marzo llamaron a Yosol. En una semana tenían su instalación lista.</div>
+        <div class="slide-subtext">8 paneles · 5 kW · Tejado orientado al sur en Aldaia</div>
+      </div>
+      <div class="slide bg-sky-light">
+        <div class="slide-num">SLIDE 4</div>
+        <div class="slide-role">El primer mes</div>
+        <div class="slide-text">Abril: factura de 12€. "No me lo creía", nos dijeron.</div>
+      </div>
+      <div class="slide bg-soft-green">
+        <div class="slide-num">SLIDE 5</div>
+        <div class="slide-role">El verano</div>
+        <div class="slide-text">Junio, julio, agosto: 0€ y excedentes acumulados en batería virtual.</div>
+        <div class="slide-subtext">Esos excedentes los usaron en enero y febrero.</div>
+      </div>
+      <div class="slide bg-white-clean">
+        <div class="slide-num">SLIDE 6</div>
+        <div class="slide-role">Los números</div>
+        <div class="slide-text">Ahorro año 1: 1.800€ Inversión: 7.200€ → Se amortiza en 4 años.</div>
+      </div>
+      <div class="slide bg-sky-deep">
+        <div class="slide-num">SLIDE 7</div>
+        <div class="slide-role">La realidad del sol</div>
+        <div class="slide-text">Valencia tiene más de 300 días de sol al año. Cada uno es dinero que puedes capturar.</div>
+      </div>
+      <div class="slide bg-sun-warm">
+        <div class="slide-num">SLIDE 8 (CTA)</div>
+        <div class="slide-text">¿Cuánto pagas tú de luz al mes?</div>
+        <div class="slide-subtext">Escríbenos y te calculamos tu ahorro real, sin compromiso.</div>
+        <div class="slide-cta">→ Enlace en bio · WhatsApp</div>
+      </div>
+    </div>
+
+    <div class="section-h">Descripción de la publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Texto para Instagram (caption)</div>
+      <div class="desc-text">Hace 8 meses, una familia de Aldaia pagaba 180€/mes de luz. 🔴
+
+Este mes, su factura fue de 0€. ⚡
+
+¿La diferencia? Una instalación fotovoltaica de Yosol y la batería virtual.
+
+→ Desliza para ver su historia completa y los números reales.
+
+💬 Cuéntanos: ¿cuánto pagas tú de media al mes? Te calculamos gratis cuánto podrías ahorrar.</div>
+      <div class="desc-tags">#EnergíaSolar #Valencia #PanelesSolares #AhorroEnergético #Fotovoltaica #Autoconsumo #YosolInstalaciones #AldaiaValencia</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 02 — REELS/TIKTOK: Timelapse instalación
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="reels">
+  <div class="card-header">
+    <div class="card-num">#02</div>
+    <div class="card-meta">
+      <div class="card-title">De tejado vacío a solar en 6 horas — Timelapse completo</div>
+      <div class="card-tags">
+        <span class="tag tag-format-reels">🎬 Reels / TikTok</span>
+        <span class="tag tag-ch-ig">📸 Instagram</span>
+        <span class="tag tag-ch-tk">🎵 TikTok</span>
+        <span class="tag tag-pillar">🏠 Pilar: Proyectos Reales</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>❤️</span><strong>Like:</strong>&nbsp;satisfacción visual del timelapse</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;"míralo, así hacen la instalación"</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;pregunta sobre el precio</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia:</strong> El timelapse genera una satisfacción visual casi hipnótica que retiene al espectador hasta el final. Añadir datos en texto en pantalla convierte visualización en educación, lo que dispara los guardados.</div>
+
+    <div class="section-h">Formato técnico</div>
+    <div class="reel-structure">
+      <div class="reel-meta-box"><div class="reel-meta-label">Duración</div><div class="reel-meta-value">30–45 segundos</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Ratio</div><div class="reel-meta-value">9:16 vertical</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Música</div><div class="reel-meta-value">Trending en TikTok (instrumental enérgico, sin letra)</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Grabación</div><div class="reel-meta-value">Cámara fija en trípode. 1 foto cada 30 seg durante la instalación. Exportar a 24fps.</div></div>
+    </div>
+
+    <div class="section-h">Guion técnico — Escenas</div>
+    <div class="scenes-list">
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>1<br>0–3s</div>
+        <div class="scene-body">
+          <div class="scene-time">HOOK — 0:00 a 0:03</div>
+          <div class="scene-what">Plano del tejado vacío. Sin paneles. Sol de mañana.</div>
+          <div class="scene-how">Cámara fija desde esquina. Gran angular. Cielo azul visible. Encuadre amplio.</div>
+          <div class="scene-text-overlay">TEXTO EN PANTALLA: "06:30 AM. Tejado vacío."</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>2<br>3–12s</div>
+        <div class="scene-body">
+          <div class="scene-time">DESARROLLO — 0:03 a 0:12</div>
+          <div class="scene-what">Timelapse acelerado: llegada de equipo, descarga de material, montaje de estructura</div>
+          <div class="scene-how">Misma cámara fija. El equipo se mueve rápido. Música empieza aquí. Ritmo de cortes al beat.</div>
+          <div class="scene-text-overlay">TEXTO: "2 técnicos · 8 paneles · 5 kWp"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>3<br>12–25s</div>
+        <div class="scene-body">
+          <div class="scene-time">CLÍMAX — 0:12 a 0:25</div>
+          <div class="scene-what">Timelapse de colocación de paneles. Se ve cómo el tejado se va llenando de solar.</div>
+          <div class="scene-how">Aceleración máxima. Cortes cada 2 segundos. Añadir contador de tiempo en esquina: 8h → 10h → 12h.</div>
+          <div class="scene-text-overlay">TEXTO: "12:30 PM. Ya son 4 paneles."</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>4<br>25–35s</div>
+        <div class="scene-body">
+          <div class="scene-time">REVEAL — 0:25 a 0:35</div>
+          <div class="scene-what">Plano final: tejado completamente equipado. Mismo encuadre que el inicial. Sol de tarde.</div>
+          <div class="scene-how">Pausa en la música o efecto de "reveal". Contrastar con primer frame. Puede congelarse el frame final.</div>
+          <div class="scene-text-overlay">TEXTO: "17:00h. Instalación completa. ☀️"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>5<br>35–45s</div>
+        <div class="scene-body">
+          <div class="scene-time">CTA — 0:35 a 0:45</div>
+          <div class="scene-what">Plano de la app de monitorización mostrando producción en tiempo real o pantalla del inversor.</div>
+          <div class="scene-how">Plano detalle. Mano sosteniendo el móvil. Número de kW producidos visible.</div>
+          <div class="scene-text-overlay">TEXTO: "Ya están generando electricidad gratis ⚡ — ¿Quieres saber cuánto ahorrarías tú? Link en bio."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-h">Guion de voz (narración opcional en off)</div>
+    <div class="guion-box">
+      <div class="g-label">🎙 Guion — Voz en off o subtítulos en pantalla</div>
+      <p><span class="hook">"Este tejado estaba vacío esta mañana."</span></p>
+      <div class="guion-sep"></div>
+      <p class="dev">"6 horas después, esta familia en Aldaia ya no va a volver a pagar una factura de luz como antes. Instalamos 8 paneles, 5 kilovatios de potencia, todo en un día."</p>
+      <div class="guion-sep"></div>
+      <p><span class="cta">"¿Tienes tejado orientado al sur? Escríbenos y te hacemos el estudio gratis. Sin compromiso."</span></p>
+    </div>
+
+    <div class="section-h">Descripción de la publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Texto para Instagram / TikTok</div>
+      <div class="desc-text">6 horas. De tejado vacío a independencia energética. ☀️
+
+Mira cómo instalamos 8 paneles fotovoltaicos en una vivienda en Aldaia, Valencia.
+
+⚡ 5 kWp instalados
+💰 Ahorro estimado: 1.800€/año
+📅 Amortización: 4-5 años
+
+¿Tu tejado está listo para el sol? Escríbenos y calculamos tu instalación gratis 👇</div>
+      <div class="desc-tags">#InstalacionSolar #Fotovoltaica #Valencia #EnergíaLimpia #Timelapse #YosolInstalaciones #PanelesSolares #Autoconsumo</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 03 — LINKEDIN: ¿Cuánto puedes ahorrar?
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="linkedin">
+  <div class="card-header">
+    <div class="card-num">#03</div>
+    <div class="card-meta">
+      <div class="card-title">¿Cuánto puedes ahorrar al año con solar en Valencia? Lo calculamos.</div>
+      <div class="card-tags">
+        <span class="tag tag-format-linkedin">💼 LinkedIn</span>
+        <span class="tag tag-pillar">💰 Pilar: Ahorro Real</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>❤️</span><strong>Like:</strong>&nbsp;dato impactante en primera línea</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;encuesta al final</div>
+    <div class="eng-target"><span>🔖</span><strong>Guardado:</strong>&nbsp;calculadora mental que quieren releer</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;lo pasan a socios o dueños de empresa</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia LinkedIn:</strong> En LinkedIn el contenido que mejor funciona tiene un hook que rompe expectativas en las 2 primeras líneas (antes del "ver más"), estructura tipo lista o comparativa y una pregunta que invita al debate. El público B2B valora los datos concretos y el ROI.</div>
+
+    <div class="section-h">Post completo de LinkedIn</div>
+    <div class="linkedin-post">
+      <div class="li-profile">
+        <div class="li-avatar">☀</div>
+        <div>
+          <div class="li-name">Yosol Instalaciones</div>
+          <div class="li-role">Instalaciones fotovoltaicas · Aldaia, Valencia</div>
+        </div>
+      </div>
+      <div class="li-body"><span class="li-hook">Una empresa en Valencia nos llamó con la factura de luz en la mano: 3.200€ al mes.</span>
+
+Hoy paga 0€.
+
+Aquí van los números reales de lo que puede conseguir una empresa con una instalación fotovoltaica en España:
+
+——
+
+📊 ESCENARIO TIPO (empresa mediana, 150 kWp instalados):
+
+• Consumo anual antes: 180.000 kWh
+• Producción solar anual: 210.000 kWh
+• Excedentes volcados a red o batería virtual
+• Factura anual antes: 38.000€
+• Factura anual después: 2.100€ (solo cargos fijos)
+• Ahorro año 1: 35.900€
+• Inversión instalación: ~85.000€
+• Amortización: 2,4 años
+
+——
+
+Y esto sin contar las deducciones fiscales del artículo 14 de la Ley de IRPF ni las subvenciones del IDAE disponibles en 2025.
+
+Para una vivienda particular (5 kWp):
+→ Inversión media: 7.000–8.000€
+→ Ahorro anual: 1.500–2.000€
+→ Amortización: 4–5 años
+
+El sol en Valencia da 2.850 horas al año. Cada hora que no tienes paneles instalados es dinero que se escapa por el tejado.
+
+——
+
+<span class="li-cta">Si tienes una empresa o una vivienda en la Comunitat Valenciana y quieres un estudio personalizado, escríbenos. Lo hacemos sin coste y sin compromiso.</span>
+
+¿Tienes o has valorado alguna vez una instalación solar en tu empresa o vivienda? 👇</div>
+      <div class="li-hashtags">#EnergíaSolar #Fotovoltaica #Valencia #Autoconsumo #EficienciaEnergética #Sostenibilidad #PYME #TransiciónEnergética #YosolInstalaciones</div>
+      <div class="li-reactions">👍 Like · 💬 Comentar · ↗️ Compartir</div>
+    </div>
+
+    <div class="section-h">Descripción / notas de publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Instrucciones para publicar</div>
+      <div class="desc-text">• Publicar martes o miércoles entre 9–11h (pico de actividad en LinkedIn España)
+• Acompañar con imagen: infografía con los números del escenario tipo o foto real de instalación industrial
+• Responder a TODOS los comentarios en las primeras 2 horas (el algoritmo de LinkedIn premia la conversación temprana)
+• Si alguien pregunta por precio, responder públicamente con "te envío DM con el cálculo para tu caso"</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 04 — REELS: 3 mitos sobre energía solar
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="reels">
+  <div class="card-header">
+    <div class="card-num">#04</div>
+    <div class="card-meta">
+      <div class="card-title">3 mitos sobre la energía solar que te están costando dinero</div>
+      <div class="card-tags">
+        <span class="tag tag-format-reels">🎬 Reels</span>
+        <span class="tag tag-ch-ig">📸 Instagram</span>
+        <span class="tag tag-pillar">🎓 Pilar: Educa</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>❤️</span><strong>Like:</span>&nbsp;indignación ante el mito ("esto creía yo")</div>
+    <div class="eng-target"><span>🔖</span><strong>Guardado:</strong>&nbsp;info útil que quieren compartir</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;"yo también pensaba eso"</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;lo mandan a quien también lo cree</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia:</strong> El formato "mito vs realidad" activa el sesgo de confirmación al revés — cuando alguien descubre que lo que creía era falso, siente la necesidad de compartirlo con quien también lo cree. Genera comentarios del tipo "yo también pensaba esto".</div>
+
+    <div class="section-h">Formato técnico</div>
+    <div class="reel-structure">
+      <div class="reel-meta-box"><div class="reel-meta-label">Duración</div><div class="reel-meta-value">45–60 segundos</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Formato</div><div class="reel-meta-value">Presentador a cámara o texto animado sobre fondo visual</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Música</div><div class="reel-meta-value">Suspense suave que sube al revelar la realidad</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Edición</div><div class="reel-meta-value">Texto grande + ❌/✅ aparecen en pantalla al ritmo del audio</div></div>
+    </div>
+
+    <div class="section-h">Guion técnico — Escenas</div>
+    <div class="scenes-list">
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>1<br>0–3s</div>
+        <div class="scene-body">
+          <div class="scene-time">HOOK — 0:00 a 0:03</div>
+          <div class="scene-what">Portada con texto impactante. Fondo solar o tejado.</div>
+          <div class="scene-how">Texto grande animado que aparece con efecto de impacto.</div>
+          <div class="scene-text-overlay">TEXTO: "3 cosas sobre solar que creías y son FALSAS ❌"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>2<br>3–20s</div>
+        <div class="scene-body">
+          <div class="scene-time">MITO 1 — 0:03 a 0:20</div>
+          <div class="scene-what">Pantalla dividida: el mito a la izq (❌), la realidad a la der (✅)</div>
+          <div class="scene-how">Texto aparece primero en rojo (mito), luego se tacha y aparece en verde (realidad). Sonido de "error" y luego "correcto".</div>
+          <div class="scene-text-overlay">MITO: ❌ "Los paneles no funcionan si hay nubes" · REALIDAD: ✅ "Funcionan con luz difusa — en Valencia producen el 70% incluso en días nublados"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>3<br>20–38s</div>
+        <div class="scene-body">
+          <div class="scene-time">MITO 2 — 0:20 a 0:38</div>
+          <div class="scene-what">Mismo formato: mito → tachado → realidad</div>
+          <div class="scene-how">Zoom out del texto al revelar la realidad para dar sensación de amplitud mental.</div>
+          <div class="scene-text-overlay">MITO: ❌ "Son muy caras y no se amortizan" · REALIDAD: ✅ "Una instalación doméstica en Valencia se amortiza en 4-5 años. Dura 25 años."</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>4<br>38–53s</div>
+        <div class="scene-body">
+          <div class="scene-time">MITO 3 — 0:38 a 0:53</div>
+          <div class="scene-what">Mito sobre los trámites y burocracia</div>
+          <div class="scene-how">Reacción exagerada del presentador (si está a cámara) o animación de papeles que desaparecen.</div>
+          <div class="scene-text-overlay">MITO: ❌ "Los trámites son un lío enorme" · REALIDAD: ✅ "Yosol gestiona TODO — tú solo firmas una vez"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>5<br>53–60s</div>
+        <div class="scene-body">
+          <div class="scene-time">CTA — 0:53 a 1:00</div>
+          <div class="scene-what">Pantalla de cierre con logo Yosol y CTA claro</div>
+          <div class="scene-how">Fondo cálido solar. Texto animado final.</div>
+          <div class="scene-text-overlay">TEXTO FINAL: "¿Cuál de estos mitos creías tú? 👇 Comenta abajo. Y si quieres el estudio de tu caso: link en bio."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-h">Guion de voz</div>
+    <div class="guion-box">
+      <div class="g-label">🎙 Guion narrado (versión a cámara)</div>
+      <p><span class="hook">"Hay 3 cosas sobre la energía solar que mucha gente cree y que les están costando dinero cada mes. Vamos a desmontarlas."</span></p>
+      <div class="guion-sep"></div>
+      <p class="dev">"Primero: que los paneles no funcionan si hay nubes. Falso. Funcionan con luz difusa. En Valencia producen el 70% de su capacidad incluso en un día nublado.</p>
+      <div class="guion-sep"></div>
+      <p class="dev">Segundo: que son carísimas y no se amortizan. Falso. Una instalación doméstica aquí en Valencia cuesta entre 6.000 y 8.000 euros. Con un ahorro de 1.800 euros al año, en 4-5 años ya recuperas todo. Y los paneles duran 25 años.</p>
+      <div class="guion-sep"></div>
+      <p class="dev">Tercero: que los trámites son un lío enorme. En Yosol nos encargamos de absolutamente todo. Tú firmas una vez y nosotros gestionamos el resto."</p>
+      <div class="guion-sep"></div>
+      <p><span class="cta">"¿Cuál de estos mitos creías tú? Cuéntamelo en comentarios. Y si quieres saber cuánto ahorrarías con solar en tu casa, tienes el link en bio para el estudio gratuito."</span></p>
+    </div>
+
+    <div class="section-h">Descripción de la publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Texto para Instagram</div>
+      <div class="desc-text">❌ "Los paneles no funcionan con nubes"
+❌ "Son muy caras, no se amortizan"
+❌ "Los trámites son un lío"
+
+Los 3 mitos que le han costado dinero a mucha gente en Valencia. Los desmontamos en 60 segundos.
+
+💬 ¿Cuál de estos creías tú? Cuéntanoslo abajo 👇
+
+🔗 Estudio gratuito y sin compromiso para tu vivienda o empresa: link en bio.</div>
+      <div class="desc-tags">#MitosSolar #EnergíaSolar #Valencia #PanelesSolares #Fotovoltaica #Autoconsumo #AhorroEnergético #YosolInstalaciones</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 05 — REELS/TIKTOK: Tutorial batería virtual
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="reels">
+  <div class="card-header">
+    <div class="card-num">#05</div>
+    <div class="card-meta">
+      <div class="card-title">¿Qué es la batería virtual y por qué hace que tu factura sea 0€?</div>
+      <div class="card-tags">
+        <span class="tag tag-format-reels">🎬 TikTok / Reels</span>
+        <span class="tag tag-ch-tk">🎵 TikTok</span>
+        <span class="tag tag-ch-ig">📸 Instagram</span>
+        <span class="tag tag-pillar">🎓 Pilar: Educa</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>🔖</span><strong>Guardado:</strong>&nbsp;concepto nuevo que quieren entender</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;"mira cómo funciona esto"</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;"¿mi compañía tiene esto?"</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia:</strong> La batería virtual es el concepto diferenciador de Yosol y lo que hace posible la "factura a 0€". Explicarlo de forma simple y visual genera guardados masivos porque la gente quiere volver a verlo para entenderlo bien.</div>
+
+    <div class="section-h">Formato técnico</div>
+    <div class="reel-structure">
+      <div class="reel-meta-box"><div class="reel-meta-label">Duración</div><div class="reel-meta-value">50–60 segundos</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Formato</div><div class="reel-meta-value">Animación simple (Canva o CapCut) + voz en off</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Visual</div><div class="reel-meta-value">Iconos de sol, casa, batería, red eléctrica. Fondo amarillo suave.</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Música</div><div class="reel-meta-value">Fondo suave, curioso, sin letra</div></div>
+    </div>
+
+    <div class="section-h">Guion técnico — Escenas</div>
+    <div class="scenes-list">
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>1<br>0–4s</div>
+        <div class="scene-body">
+          <div class="scene-time">HOOK — 0:00 a 0:04</div>
+          <div class="scene-what">Pregunta directa. Fondo amarillo. Texto grande.</div>
+          <div class="scene-how">Sin contexto, lanzar la pregunta al instante.</div>
+          <div class="scene-text-overlay">TEXTO: "¿Sabes que puedes generar luz en verano… y usarla en diciembre? 🤯"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>2<br>4–18s</div>
+        <div class="scene-body">
+          <div class="scene-time">PROBLEMA — 0:04 a 0:18</div>
+          <div class="scene-what">Animación: sol grande → casa → flecha hacia "red eléctrica" con interrogante</div>
+          <div class="scene-how">Mostrar el excedente que "se pierde". Icono de dinero que sale volando.</div>
+          <div class="scene-text-overlay">VOZ: "En verano, tus paneles generan MÁS de lo que consumes. Ese excedente, sin batería virtual, se devuelve a la red por muy poco dinero."</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>3<br>18–38s</div>
+        <div class="scene-body">
+          <div class="scene-time">SOLUCIÓN — 0:18 a 0:38</div>
+          <div class="scene-what">Animación: excedente va a un "banco" virtual. En invierno, flecha vuelve de ese banco a la casa.</div>
+          <div class="scene-how">Icono de "hucha" o "banco". El número de kWh se acumula en verano y decrece en invierno.</div>
+          <div class="scene-text-overlay">VOZ: "Con la batería virtual, esos excedentes se guardan como 'saldo'. En invierno, cuando produces menos, usas ese saldo. Resultado: 0€ en tu factura."</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>4<br>38–50s</div>
+        <div class="scene-body">
+          <div class="scene-time">PRUEBA REAL — 0:38 a 0:50</div>
+          <div class="scene-what">Pantalla de app de monitorización o factura real con 0€</div>
+          <div class="scene-how">Plano detalle de la app o captura de pantalla de la factura</div>
+          <div class="scene-text-overlay">VOZ: "Esta familia en Valencia lleva 4 meses con factura a 0 euros. Esto es la batería virtual en acción."</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>5<br>50–60s</div>
+        <div class="scene-body">
+          <div class="scene-time">CTA — 0:50 a 1:00</div>
+          <div class="scene-what">Pantalla de cierre. Logo Yosol.</div>
+          <div class="scene-how">Fondo cálido. Texto directo.</div>
+          <div class="scene-text-overlay">TEXTO: "¿Tu compañía ofrece batería virtual? 💬 Cuéntanoslo abajo. Y si quieres saber si puedes tener factura a 0€: link en bio."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-h">Guion de voz</div>
+    <div class="guion-box">
+      <div class="g-label">🎙 Guion completo</div>
+      <p><span class="hook">"¿Sabes que puedes generar electricidad en verano y usarla en diciembre? Esto se llama batería virtual y es lo que hace posible tener la factura a 0 euros."</span></p>
+      <div class="guion-sep"></div>
+      <p class="dev">"Aquí va cómo funciona. En verano, tus paneles solares producen más de lo que consumes en casa. Ese excedente, sin batería virtual, simplemente se devuelve a la red eléctrica y te pagan una miseria por él. Con la batería virtual, ese excedente se queda registrado como 'saldo' en tu cuenta con la compañía. En invierno, cuando produces menos porque hay menos horas de sol, usas ese saldo acumulado para compensar tu factura."</p>
+      <div class="guion-sep"></div>
+      <p><span class="cta">"¿Tu compañía ofrece batería virtual? Si no lo sabes, escríbenos. Y si quieres saber si puedes llegar a 0 euros, el estudio es gratis."</span></p>
+    </div>
+
+    <div class="section-h">Descripción de la publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Texto para TikTok / Instagram</div>
+      <div class="desc-text">¿Generar en verano y gastar en diciembre? Sí, es posible. ☀️❄️
+
+Esto se llama batería virtual y es la clave para tener la factura de luz a 0€ todo el año, incluso en invierno.
+
+Te lo explicamos en 60 segundos 👆
+
+💬 ¿Sabías que existía esto? ¿Tu compañía lo ofrece?
+
+🔗 Si quieres saber si puedes llegar a 0€ en tu caso: link en bio para el estudio gratuito.</div>
+      <div class="desc-tags">#BateríaVirtual #EnergíaSolar #Fotovoltaica #Valencia #FacturaCero #Autoconsumo #YosolInstalaciones #PanelesSolares</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 06 — LINKEDIN: Guía ayudas 2025
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="linkedin">
+  <div class="card-header">
+    <div class="card-num">#06</div>
+    <div class="card-meta">
+      <div class="card-title">Todo sobre las ayudas y subvenciones para solar en España en 2025</div>
+      <div class="card-tags">
+        <span class="tag tag-format-linkedin">💼 LinkedIn</span>
+        <span class="tag tag-pillar">🎓 Pilar: Educa</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>🔖</span><strong>Guardado:</strong>&nbsp;guía de referencia que querrán consultar</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;útil para otros empresarios y propietarios</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;preguntas sobre su caso concreto</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia LinkedIn:</strong> Las guías prácticas con información oficial son el contenido que más se guarda y comparte en LinkedIn. Posiciona a Yosol como experto de referencia y genera consultas directas de empresas y particulares que quieren saber si les aplica alguna ayuda.</div>
+
+    <div class="section-h">Post completo de LinkedIn</div>
+    <div class="linkedin-post">
+      <div class="li-profile">
+        <div class="li-avatar">☀</div>
+        <div>
+          <div class="li-name">Yosol Instalaciones</div>
+          <div class="li-role">Instalaciones fotovoltaicas · Aldaia, Valencia</div>
+        </div>
+      </div>
+      <div class="li-body"><span class="li-hook">En 2025 hay dinero sobre la mesa para instalar energía solar en España. La mayoría de empresas y hogares no lo están aprovechando.</span>
+
+Aquí está la guía completa que necesitas 👇
+
+——
+
+☀️ AYUDAS DISPONIBLES EN 2025:
+
+1. DEDUCCIONES IRPF (particulares)
+→ 20% de deducción en cuota si mejoras la eficiencia energética de tu vivienda
+→ 40% si reduces la demanda de calefacción en un 70%+
+→ 60% si consigues clase energética A o B
+→ Base deducible: hasta 15.000€ por vivienda
+
+2. PROGRAMA DE IMPULSO DE RENOVABLES (IDAE)
+→ Convocatorias abiertas para comunidades de propietarios y pymes
+→ Subvenciones de hasta el 40% del coste de instalación
+→ Compatible con otras ayudas autonómicas
+
+3. AYUDAS DE LA COMUNITAT VALENCIANA (IVACE)
+→ Hasta el 30% adicional para instalaciones en la Comunitat
+→ Para empresas y particulares
+→ Tramitación a través de IVACE Energía
+
+4. FINANCIACIÓN ICO
+→ Línea de financiación verde al 0-1% de interés
+→ Para instalaciones en viviendas y pymes
+→ Plazo hasta 10 años
+
+——
+
+¿LO MÁS IMPORTANTE?
+
+Las ayudas se pueden acumular. Una instalación de 10.000€ puede quedar en 5.000-6.000€ después de subvenciones y deducciones fiscales.
+
+Y el plazo de las convocatorias es limitado.
+
+——
+
+En Yosol nos encargamos de gestionar todos los trámites de ayudas junto con la instalación. <span class="li-cta">Si quieres saber qué te corresponde en tu caso concreto, escríbenos.</span>
+
+¿Conocías estas ayudas? ¿Tu empresa ha solicitado alguna vez subvenciones para energía renovable? 👇</div>
+      <div class="li-hashtags">#SubvencionesSolar #IDAE #EnergíaSolar #Valencia #Fotovoltaica #Autoconsumo #PYME #EficienciaEnergética #TransiciónEnergética #YosolInstalaciones</div>
+      <div class="li-reactions">👍 Like · 💬 Comentar · ↗️ Compartir · 🔖 Guardar</div>
+    </div>
+
+    <div class="section-h">Notas de publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Instrucciones para publicar</div>
+      <div class="desc-text">• Publicar lunes o martes entre 8–10h
+• Imagen sugerida: infografía con los 4 tipos de ayudas en tabla comparativa
+• Anclar en el perfil de empresa durante 1 mes (es contenido evergreen)
+• Responder cada consulta con: "En tu caso concreto, [explicación], ¿te gustaría que te hiciésemos un cálculo?"
+• Este post puede convertirse en artículo largo de LinkedIn para más alcance</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 07 — REELS: Testimonio cliente
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="reels">
+  <div class="card-header">
+    <div class="card-num">#07</div>
+    <div class="card-meta">
+      <div class="card-title">"Llevamos 6 meses con la luz casi gratis" — Testimonio real en Aldaia</div>
+      <div class="card-tags">
+        <span class="tag tag-format-reels">🎬 Reels</span>
+        <span class="tag tag-ch-ig">📸 Instagram</span>
+        <span class="tag tag-pillar">🏠 Pilar: Proyectos Reales</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>❤️</span><strong>Like:</span>&nbsp;empatía con la historia real</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;"mira esto, tú también podrías"</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;"¿cuánto les costó?"</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia:</strong> El testimonio auténtico en vídeo es la prueba social más poderosa en B2C. La clave está en NO hacerlo parecer un anuncio — debe sentirse como una conversación real. Grabar en casa del cliente, con su familia, en un entorno cotidiano, multiplica la credibilidad.</div>
+
+    <div class="section-h">Formato técnico</div>
+    <div class="reel-structure">
+      <div class="reel-meta-box"><div class="reel-meta-label">Duración</div><div class="reel-meta-value">45–90 segundos</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Formato</div><div class="reel-meta-value">Entrevista informal al cliente. No guionizado, espontáneo.</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Locación</div><div class="reel-meta-value">Casa del cliente. Exterior con los paneles visibles de fondo o cocina/salón.</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Equipo</div><div class="reel-meta-value">Móvil en trípode o cámara. Luz natural. Sin micrófono de solapa si queda artificial.</div></div>
+    </div>
+
+    <div class="section-h">Guion técnico — Escenas</div>
+    <div class="scenes-list">
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>1<br>0–3s</div>
+        <div class="scene-body">
+          <div class="scene-time">HOOK — 0:00 a 0:03</div>
+          <div class="scene-what">Texto en pantalla sobre fondo oscuro o imagen de la casa</div>
+          <div class="scene-how">El texto aparece primero, antes de ver al cliente. Genera expectativa.</div>
+          <div class="scene-text-overlay">TEXTO: "Esta familia lleva 6 meses sin pagar casi nada de luz 👇"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>2<br>3–20s</div>
+        <div class="scene-body">
+          <div class="scene-time">PRESENTACIÓN — 0:03 a 0:20</div>
+          <div class="scene-what">Cliente a cámara, en casa. Exterior si hace sol.</div>
+          <div class="scene-how">Pregunta del técnico Yosol fuera de cámara: "¿Nos puedes contar cuánto pagabas antes?" — El cliente responde natural.</div>
+          <div class="scene-text-overlay">RÓTULO: [Nombre], Aldaia, Valencia · Instalación 5 kWp</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>3<br>20–50s</div>
+        <div class="scene-body">
+          <div class="scene-time">HISTORIA — 0:20 a 0:50</div>
+          <div class="scene-what">Cliente habla de la experiencia. Preguntas clave fuera de cámara.</div>
+          <div class="scene-how">Intercalar con planos detalle: paneles en tejado, app en móvil mostrando producción, factura reciente.</div>
+          <div class="scene-text-overlay">PREGUNTAS A HACER: "¿Cuánto pagabas antes?" / "¿Cuánto pagas ahora?" / "¿Cuánto tardó la instalación?" / "¿Se lo recomendarías a alguien?"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>4<br>50–70s</div>
+        <div class="scene-body">
+          <div class="scene-time">CIERRE — 0:50 a 1:10</div>
+          <div class="scene-what">Plano de los paneles. Texto sobreimpreso con los números.</div>
+          <div class="scene-how">Música suave de fondo. El cliente puede cerrar con una frase o el texto puede cerrar solo.</div>
+          <div class="scene-text-overlay">TEXTO FINAL: "¿Quieres el mismo resultado? Presupuesto gratuito 👇 Link en bio"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-h">Guion de preguntas (para el técnico en la grabación)</div>
+    <div class="guion-box">
+      <div class="g-label">🎙 Preguntas sugeridas — No guionar al cliente, que responda natural</div>
+      <p><span class="hook">1. "¿Nos puedes decir cuánto pagabas de luz antes de instalar los paneles?"</span></p>
+      <div class="guion-sep"></div>
+      <p class="dev">2. "¿Y cuánto has pagado los últimos meses?"
+3. "¿Cuánto tardó la instalación desde que nos llamaste?"
+4. "¿Hubo algo que te sorprendió del proceso?"
+5. "¿Se lo recomendarías a alguien que esté dudando?"</p>
+      <div class="guion-sep"></div>
+      <p><span class="cta">Dejar al cliente cerrar con sus propias palabras. No sugerirle qué decir.</span></p>
+    </div>
+
+    <div class="section-h">Descripción de la publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Texto para Instagram</div>
+      <div class="desc-text">No lo decimos nosotros. Lo dice [nombre del cliente] de Aldaia. ☀️
+
+6 meses después de instalar 8 paneles solares con Yosol, su factura de luz ha pasado de 170€/mes a prácticamente 0€.
+
+Mira su testimonio completo 👆
+
+💬 ¿Tienes alguna duda sobre cómo funciona? Pregúntanos abajo.
+
+🔗 Estudio gratuito para tu vivienda: link en bio</div>
+      <div class="desc-tags">#TestimonioCliente #EnergíaSolar #Valencia #PanelesSolares #AhorroEnergético #Fotovoltaica #Autoconsumo #Aldaia #YosolInstalaciones</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 08 — CARRUSEL: ¿Cuánto tarda en amortizarse?
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="carousel">
+  <div class="card-header">
+    <div class="card-num">#08</div>
+    <div class="card-meta">
+      <div class="card-title">¿En cuántos años se amortiza una instalación solar? La calculadora real.</div>
+      <div class="card-tags">
+        <span class="tag tag-format-carousel">🟧 Carrusel</span>
+        <span class="tag tag-ch-ig">📸 Instagram</span>
+        <span class="tag tag-pillar">🎓 Pilar: Educa</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>🔖</span><strong>Guardado:</strong>&nbsp;calculadora que querrán releer</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;"¿en mi caso cuánto sería?"</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;lo mandan a quien está dudando</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia:</strong> La objeción número 1 en solar es "no sé si me compensa". Este carrusel la destruye con números reales y una calculadora mental que el usuario puede aplicar a su caso. El guardado es casi automático en contenido tipo "referencia".</div>
+
+    <div class="section-h">Estructura de slides (8 slides)</div>
+    <div class="slides-track">
+      <div class="slide bg-sky-deep">
+        <div class="slide-num">PORTADA</div>
+        <div class="slide-text">"Oye, ¿cuánto tarda en amortizarse?" — La pregunta que más nos hacen. Aquí la respuesta.</div>
+        <div class="slide-subtext">→ Desliza para ver la calculadora</div>
+      </div>
+      <div class="slide bg-white-clean">
+        <div class="slide-num">SLIDE 2</div>
+        <div class="slide-role">La fórmula</div>
+        <div class="slide-text">Amortización = Coste instalación ÷ Ahorro anual</div>
+        <div class="slide-subtext">Así de simple. Vamos a los números reales.</div>
+      </div>
+      <div class="slide bg-sun-light">
+        <div class="slide-num">SLIDE 3</div>
+        <div class="slide-role">Caso A: Piso pequeño</div>
+        <div class="slide-text">3 kWp · 6 paneles Inversión: 5.500€ Ahorro/año: 1.100€ → Amortización: 5 años</div>
+      </div>
+      <div class="slide bg-sun-warm">
+        <div class="slide-num">SLIDE 4</div>
+        <div class="slide-role">Caso B: Casa familiar</div>
+        <div class="slide-text">5 kWp · 8 paneles Inversión: 7.500€ Ahorro/año: 1.800€ → Amortización: 4,2 años</div>
+      </div>
+      <div class="slide bg-sky-light">
+        <div class="slide-num">SLIDE 5</div>
+        <div class="slide-role">Caso C: Chalet grande</div>
+        <div class="slide-text">10 kWp · 16 paneles Inversión: 13.000€ Ahorro/año: 3.200€ → Amortización: 4 años</div>
+      </div>
+      <div class="slide bg-soft-green">
+        <div class="slide-num">SLIDE 6</div>
+        <div class="slide-role">Los paneles duran</div>
+        <div class="slide-text">25 AÑOS con garantía de rendimiento. Si los amortizan en 4-5 años... los 20 restantes son beneficio puro.</div>
+      </div>
+      <div class="slide bg-white-clean">
+        <div class="slide-num">SLIDE 7</div>
+        <div class="slide-role">Además, con ayudas</div>
+        <div class="slide-text">Las subvenciones IDAE y autonómicas pueden reducir la inversión hasta un 40%. La amortización baja a 2,5–3 años.</div>
+      </div>
+      <div class="slide bg-dark-text">
+        <div class="slide-num">SLIDE 8 (CTA)</div>
+        <div class="slide-text">¿Cuánto pagas al mes de luz? Con ese dato te calculamos tu amortización exacta. Gratis.</div>
+        <div class="slide-cta">→ Escríbenos a WhatsApp · Link en bio</div>
+      </div>
+    </div>
+
+    <div class="section-h">Descripción de la publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Texto para Instagram</div>
+      <div class="desc-text">¿En cuántos años se amortiza una instalación solar? 🧮
+
+La respuesta corta: entre 4 y 5 años en Valencia.
+
+La respuesta larga: desliza y te lo mostramos con números reales para 3 tipos de vivienda diferentes.
+
+(Spoiler: si los paneles duran 25 años y se amortizan en 4... los 21 siguientes son beneficio puro ☀️)
+
+🔖 Guarda este post para cuando te hagan la pregunta.
+
+💬 ¿En qué caso encajas tú? Dinos abajo y te calculamos el tuyo.</div>
+      <div class="desc-tags">#AmortizaciónSolar #EnergíaSolar #Valencia #PanelesSolares #Fotovoltaica #Autoconsumo #CalculadoraSolar #YosolInstalaciones</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 09 — REELS: Cargador VE en 2 horas
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="reels">
+  <div class="card-header">
+    <div class="card-num">#09</div>
+    <div class="card-meta">
+      <div class="card-title">Instalamos un cargador de coche eléctrico en 2 horas — cómo funciona</div>
+      <div class="card-tags">
+        <span class="tag tag-format-reels">🎬 TikTok / Reels</span>
+        <span class="tag tag-ch-tk">🎵 TikTok</span>
+        <span class="tag tag-ch-ig">📸 Instagram</span>
+        <span class="tag tag-pillar">🏠 Pilar: Proyectos</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>❤️</span><strong>Like:</span>&nbsp;curiosidad tecnológica</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;dueños de coche eléctrico lo comparten</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;"¿cuánto cuesta instalarlo?"</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia:</strong> El coche eléctrico está explotando en España. Hay millones de dueños buscando soluciones para cargar en casa. Este vídeo captura ese tráfico orgánico y conecta el servicio de cargador con el ecosistema solar de Yosol (cargas gratis con tu propio sol).</div>
+
+    <div class="section-h">Formato técnico</div>
+    <div class="reel-structure">
+      <div class="reel-meta-box"><div class="reel-meta-label">Duración</div><div class="reel-meta-value">45–60 segundos</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Formato</div><div class="reel-meta-value">Técnico en obra + voz en off explicativa</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Locación</div><div class="reel-meta-value">Garaje del cliente con coche eléctrico visible</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Música</div><div class="reel-meta-value">Instrumental moderno, tecnológico</div></div>
+    </div>
+
+    <div class="section-h">Guion técnico — Escenas</div>
+    <div class="scenes-list">
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>1<br>0–4s</div>
+        <div class="scene-body">
+          <div class="scene-time">HOOK — 0:00 a 0:04</div>
+          <div class="scene-what">Coche eléctrico en garaje. Técnico Yosol llega con el material.</div>
+          <div class="scene-how">Plano general del garaje. El coche ocupa protagonismo. Efecto de tiempo inicial.</div>
+          <div class="scene-text-overlay">TEXTO: "10:00 AM — Sin cargador en casa"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>2<br>4–25s</div>
+        <div class="scene-body">
+          <div class="scene-time">PROCESO — 0:04 a 0:25</div>
+          <div class="scene-what">Timelapse de la instalación: cableado, fijación del wallbox, conexión al cuadro eléctrico</div>
+          <div class="scene-how">Planos detalle del trabajo. Intercalar con texto explicativo. Música rítmica.</div>
+          <div class="scene-text-overlay">VOZ: "Instalamos el cargador wallbox, hacemos el cableado hasta el cuadro eléctrico, y verificamos la instalación. Todo homologado y con boletín eléctrico incluido."</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>3<br>25–40s</div>
+        <div class="scene-body">
+          <div class="scene-time">REVEAL — 0:25 a 0:40</div>
+          <div class="scene-what">Coche conectado al cargador nuevo. Luz verde encendida.</div>
+          <div class="scene-how">Misma perspectiva que el inicio. El contraste es el impacto visual.</div>
+          <div class="scene-text-overlay">TEXTO: "12:00 PM — Cargando en casa ✅" + "Velocidad: hasta 22 kW"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>4<br>40–60s</div>
+        <div class="scene-body">
+          <div class="scene-time">BONUS + CTA — 0:40 a 1:00</div>
+          <div class="scene-what">Imagen del cargador + paneles solares en el tejado de la misma casa</div>
+          <div class="scene-how">Corte al exterior. Los paneles visibles arriba, el cargador en el garaje abajo.</div>
+          <div class="scene-text-overlay">VOZ: "Y si lo combinas con paneles solares de Yosol, cargas tu coche con el sol de tu propio tejado. A coste cero." + TEXTO: "¿Tienes coche eléctrico? Escríbenos 👇"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-h">Guion de voz</div>
+    <div class="guion-box">
+      <div class="g-label">🎙 Guion narrado</div>
+      <p><span class="hook">"¿Tienes coche eléctrico y todavía estás cargando en la calle o en un parking? Esto se puede resolver en 2 horas."</span></p>
+      <div class="guion-sep"></div>
+      <p class="dev">"Llegamos al garaje, instalamos el wallbox, hacemos el cableado hasta tu cuadro eléctrico y lo dejamos completamente homologado con su boletín eléctrico. En 2 horas, tienes carga inteligente en casa, con control por app, y cargando hasta 22 kilovatios por hora."</p>
+      <div class="guion-sep"></div>
+      <p><span class="cta">"Y el siguiente paso, si quieres ir a coste cero, es añadir paneles solares en tu tejado. Así cargas el coche con el sol de tu propia casa. ¿Te interesa? Escríbenos y te explicamos las opciones."</span></p>
+    </div>
+
+    <div class="section-h">Descripción de la publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Texto para TikTok / Instagram</div>
+      <div class="desc-text">De no tener cargador en casa a cargar tu eléctrico en casa, en 2 horas. ⚡🚗
+
+Y si además tienes paneles solares de Yosol... cargas con el sol de tu propio tejado. A coste 0€.
+
+Instalación homologada · Boletín eléctrico incluido · Válido para todos los wallbox del mercado.
+
+💬 ¿Tienes coche eléctrico? ¿Dónde cargas ahora?
+
+🔗 Pide presupuesto sin compromiso: link en bio</div>
+      <div class="desc-tags">#CocheEléctrico #Wallbox #CargadorEléctrico #EnergíaSolar #Valencia #Fotovoltaica #YosolInstalaciones #EVCharger #Autoconsumo</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 10 — LINKEDIN: Caso de éxito industrial
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="linkedin">
+  <div class="card-header">
+    <div class="card-num">#10</div>
+    <div class="card-meta">
+      <div class="card-title">Nave industrial en Valencia: de 38.000€/año en luz a casi 0. Los números.</div>
+      <div class="card-tags">
+        <span class="tag tag-format-linkedin">💼 LinkedIn</span>
+        <span class="tag tag-pillar">🏠 Pilar: Proyectos Reales</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>❤️</span><strong>Like:</span>&nbsp;datos de ROI empresarial impactantes</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;otros empresarios preguntan por su caso</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;directivos que conocen a otros directivos</div>
+    <div class="eng-target"><span>🔖</span><strong>Guardado:</strong>&nbsp;referencia para presentar a su consejo</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia LinkedIn:</strong> En LinkedIn el público empresarial toma decisiones basadas en ROI y casos de éxito verificables. Un caso industrial real con números concretos genera más conversiones que cualquier anuncio. La clave es ser específico: sector, kW, inversión, ahorro, plazo.</div>
+
+    <div class="section-h">Post completo de LinkedIn</div>
+    <div class="linkedin-post">
+      <div class="li-profile">
+        <div class="li-avatar">☀</div>
+        <div>
+          <div class="li-name">Yosol Instalaciones</div>
+          <div class="li-role">Instalaciones fotovoltaicas · Aldaia, Valencia</div>
+        </div>
+      </div>
+      <div class="li-body"><span class="li-hook">Una empresa del sector logístico en Valencia pagaba 38.000€ al año en electricidad. Este año pagará menos de 2.000€.</span>
+
+Así fue el proyecto 👇
+
+——
+
+📋 EL PROYECTO:
+
+Sector: Logística y distribución
+Ubicación: Polígono industrial, Valencia
+Superficie de cubierta disponible: 1.200 m²
+Consumo anual antes: 180.000 kWh
+Horario de consumo: 6:00 a 22:00 (ideal para solar)
+
+——
+
+⚙️ LA INSTALACIÓN:
+
+→ 150 kWp instalados en cubierta
+→ 300 paneles monocristalinos de alta eficiencia
+→ 3 inversores trifásicos
+→ Sistema de monitorización en tiempo real
+→ Batería virtual contratada con comercializadora
+
+Tiempo de instalación: 5 días
+Tramitación hasta conexión a red: 3 semanas
+
+——
+
+📊 LOS RESULTADOS (primer año completo):
+
+Producción anual solar: 213.000 kWh
+Autoconsumo directo: 171.000 kWh (80%)
+Excedentes volcados/batería virtual: 42.000 kWh
+Factura eléctrica antes: 38.400€/año
+Factura eléctrica después: 1.900€/año (solo cargos fijos)
+Ahorro primer año: 36.500€
+
+——
+
+💰 EL RETORNO:
+
+Inversión total: 87.000€
+Subvención IDAE obtenida: 28.000€
+Inversión neta: 59.000€
+Payback: 1,6 años
+
+Los paneles tienen garantía de rendimiento de 25 años.
+
+——
+
+Esta empresa pasó de ver la factura de luz como un gasto fijo incontrolable a convertirla en una inversión con retorno en menos de 2 años.
+
+<span class="li-cta">Si diriges o gestionas una empresa en la Comunitat Valenciana con consumo eléctrico elevado, podemos hacer el mismo análisis para vosotros. Sin coste y sin compromiso.</span>
+
+¿Tiene tu empresa el tejado o la cubierta aprovechados energéticamente? 👇</div>
+      <div class="li-hashtags">#CasoDeÉxito #EnergíaSolar #Fotovoltaica #Valencia #IndustriaValenciana #Sostenibilidad #ROI #PYME #TransiciónEnergética #YosolInstalaciones</div>
+      <div class="li-reactions">👍 Like · 💬 Comentar · ↗️ Compartir · 🔖 Guardar</div>
+    </div>
+
+    <div class="section-h">Notas de publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Instrucciones para publicar</div>
+      <div class="desc-text">• Publicar jueves entre 9–12h (pico de engagement B2B en LinkedIn)
+• Imagen: foto real de la instalación industrial si el cliente da permiso, o imagen representativa de nave con paneles
+• Etiquetar al cliente si da permiso (multiplica el alcance por 3–5x)
+• Responder preguntas con datos específicos para generar más comentarios
+• Este post puede derivar en una campaña de LinkedIn Ads segmentada a directores de operaciones en Valencia</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 11 — CARRUSEL: Guía autoconsumo colectivo
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="carousel">
+  <div class="card-header">
+    <div class="card-num">#11</div>
+    <div class="card-meta">
+      <div class="card-title">¿Vives en un edificio o comunidad de vecinos? También puedes tener solar.</div>
+      <div class="card-tags">
+        <span class="tag tag-format-carousel">🟧 Carrusel</span>
+        <span class="tag tag-ch-ig">📸 Instagram</span>
+        <span class="tag tag-pillar">🎓 Pilar: Educa</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>🔖</span><strong>Guardado:</strong>&nbsp;info nueva que no conocían</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;lo mandan al grupo de WhatsApp de la comunidad</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;"¿cómo lo pedimos en mi comunidad?"</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia:</strong> El autoconsumo colectivo es uno de los productos menos conocidos y más potentes de Yosol. Muchos usuarios descubren que pueden acceder a solar siendo inquilinos o viviendo en pisos. Cuando descubren esto, comparten el post al grupo de su comunidad de vecinos — multiplicador orgánico brutal.</div>
+
+    <div class="section-h">Estructura de slides (8 slides)</div>
+    <div class="slides-track">
+      <div class="slide bg-sky-deep">
+        <div class="slide-num">PORTADA</div>
+        <div class="slide-text">"¿Y yo que vivo en un piso, también puedo tener solar?" Sí. Y es más sencillo de lo que crees.</div>
+        <div class="slide-subtext">→ Desliza para entender cómo</div>
+      </div>
+      <div class="slide bg-white-clean">
+        <div class="slide-num">SLIDE 2</div>
+        <div class="slide-role">¿Qué es?</div>
+        <div class="slide-text">El autoconsumo colectivo permite que varios vecinos compartan la energía de una misma instalación solar en el edificio.</div>
+      </div>
+      <div class="slide bg-sun-light">
+        <div class="slide-num">SLIDE 3</div>
+        <div class="slide-role">¿Cómo funciona?</div>
+        <div class="slide-text">Los paneles se instalan en la azotea. La energía se reparte entre los participantes según coeficientes acordados.</div>
+      </div>
+      <div class="slide bg-sky-light">
+        <div class="slide-num">SLIDE 4</div>
+        <div class="slide-role">¿Quién puede unirse?</div>
+        <div class="slide-text">Cualquier vecino a 500m de la instalación. No hace falta ser propietario. Vale con ser consumidor del edificio.</div>
+      </div>
+      <div class="slide bg-sun-warm">
+        <div class="slide-num">SLIDE 5</div>
+        <div class="slide-role">¿Cuánto ahorra cada vecino?</div>
+        <div class="slide-text">Entre un 30% y un 60% de su factura eléctrica, dependiendo del consumo y el número de participantes.</div>
+      </div>
+      <div class="slide bg-soft-green">
+        <div class="slide-num">SLIDE 6</div>
+        <div class="slide-role">¿Qué hay que hacer?</div>
+        <div class="slide-text">1. Presentarlo en junta de vecinos 2. Obtener aprobación (mayoría simple) 3. Llamar a Yosol. Nosotros gestionamos el resto.</div>
+      </div>
+      <div class="slide bg-white-clean">
+        <div class="slide-num">SLIDE 7</div>
+        <div class="slide-role">¿Cuánto cuesta?</div>
+        <div class="slide-text">La inversión se reparte entre los vecinos participantes. Con subvenciones, el coste por hogar puede ser de 1.500–3.000€.</div>
+      </div>
+      <div class="slide bg-dark-text">
+        <div class="slide-num">SLIDE 8 (CTA)</div>
+        <div class="slide-text">Manda este post al grupo de WhatsApp de tu comunidad. Y si quieres dar el primer paso, escríbenos.</div>
+        <div class="slide-cta">→ Link en bio · Estudio gratuito</div>
+      </div>
+    </div>
+
+    <div class="section-h">Descripción de la publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Texto para Instagram</div>
+      <div class="desc-text">¿Vives en un piso y crees que la energía solar no es para ti? 🏢☀️
+
+Error. El autoconsumo colectivo te permite compartir una instalación solar con tus vecinos y reducir tu factura entre un 30% y un 60%.
+
+Desliza y te explicamos cómo funciona paso a paso 👆
+
+🔖 Guarda este post y mándalo al grupo de WhatsApp de tu comunidad. Puede que seas tú quien lo arranque.
+
+💬 ¿Vives en piso o en casa? Cuéntanos tu situación abajo.</div>
+      <div class="desc-tags">#AutoconsumoColectivo #ComunidadDeVecinos #EnergíaSolar #Valencia #PanelesSolares #AhorroEnergético #Fotovoltaica #YosolInstalaciones</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 12 — REELS: "Un día en Yosol"
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="reels">
+  <div class="card-header">
+    <div class="card-num">#12</div>
+    <div class="card-meta">
+      <div class="card-title">Un día con el equipo de Yosol — De la oficina a la instalación</div>
+      <div class="card-tags">
+        <span class="tag tag-format-reels">🎬 TikTok / Reels</span>
+        <span class="tag tag-ch-tk">🎵 TikTok</span>
+        <span class="tag tag-ch-ig">📸 Instagram</span>
+        <span class="tag tag-pillar">🌍 Pilar: Marca</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>❤️</span><strong>Like:</span>&nbsp;humanización de la marca</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;"¿estáis contratando?" o "¿hacéis en mi ciudad?"</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;orgullo del equipo, los propios empleados lo comparten</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia:</strong> El contenido "detrás de cámaras" humaniza la marca y genera confianza. En un sector técnico como el solar, ver al equipo real trabaja como garantía de calidad. Además, los propios empleados comparten este tipo de contenido, multiplicando el alcance orgánico de forma natural.</div>
+
+    <div class="section-h">Formato técnico</div>
+    <div class="reel-structure">
+      <div class="reel-meta-box"><div class="reel-meta-label">Duración</div><div class="reel-meta-value">60–90 segundos</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Formato</div><div class="reel-meta-value">Vlog estilo "día de trabajo" — cámara en mano, dinámico</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Estilo edición</div><div class="reel-meta-value">Cortes rápidos. Texto en pantalla con horarios. Música upbeat.</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Música</div><div class="reel-meta-value">Trending en TikTok — positiva, enérgica</div></div>
+    </div>
+
+    <div class="section-h">Guion técnico — Escenas</div>
+    <div class="scenes-list">
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>1<br>0–4s</div>
+        <div class="scene-body">
+          <div class="scene-time">HOOK — 0:00 a 0:04</div>
+          <div class="scene-what">Despertador o el técnico llegando al almacén de madrugada con el café</div>
+          <div class="scene-how">Plano POV (punto de vista) — cámara en mano del técnico</div>
+          <div class="scene-text-overlay">TEXTO: "07:00 AM. El equipo de Yosol ya está en marcha ☀️"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>2<br>4–18s</div>
+        <div class="scene-body">
+          <div class="scene-time">PREPARACIÓN — 0:04 a 0:18</div>
+          <div class="scene-what">Carga de la furgoneta, revisión del material, briefing del equipo</div>
+          <div class="scene-how">Planos rápidos. Mostrar el material: paneles, inversores, herramientas. Ambiente de equipo.</div>
+          <div class="scene-text-overlay">TEXTO: "Cargamos: 8 paneles · estructura · inversor · herramientas"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>3<br>18–40s</div>
+        <div class="scene-body">
+          <div class="scene-time">EN OBRA — 0:18 a 0:40</div>
+          <div class="scene-what">Trabajo en el tejado. Montaje de estructura, colocación de paneles, cableado.</div>
+          <div class="scene-how">Cámara dinámica. Planos desde el suelo mirando arriba, planos del técnico en el tejado, detalle de manos trabajando.</div>
+          <div class="scene-text-overlay">TEXTO: "09:30 — En obra. Aldaia, Valencia." + "Cada detalle importa."</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>4<br>40–65s</div>
+        <div class="scene-body">
+          <div class="scene-time">ENCENDIDO + CLIENTE — 0:40 a 1:05</div>
+          <div class="scene-what">Momento del encendido del inversor. Reacción del cliente. Apretón de manos.</div>
+          <div class="scene-how">Este es el momento emocional del vídeo. El cliente mirando la app por primera vez.</div>
+          <div class="scene-text-overlay">TEXTO: "17:00 — Primera generación. 2,3 kW en tiempo real. ⚡" + Cara del cliente</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>5<br>65–80s</div>
+        <div class="scene-body">
+          <div class="scene-time">CIERRE — 1:05 a 1:20</div>
+          <div class="scene-what">El equipo cargando la furgoneta de vuelta. Sol de tarde. Plano del tejado con paneles.</div>
+          <div class="scene-how">Plano de equipo. Tono emotivo. El trabajo tiene impacto real.</div>
+          <div class="scene-text-overlay">TEXTO FINAL: "Esto hacemos cada día. ¿Tu tejado es el siguiente? 👇"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-h">Guion de voz (opcional)</div>
+    <div class="guion-box">
+      <div class="g-label">🎙 Texto en pantalla o narración</div>
+      <p><span class="hook">"Esto es lo que hacemos en Yosol cada día. No es solo instalar paneles. Es hacer que una familia deje de preocuparse por la factura de la luz para siempre."</span></p>
+      <div class="guion-sep"></div>
+      <p class="dev">"Llegamos a primera hora, cargamos el material, y en 6-8 horas transformamos un tejado vacío en una mini central eléctrica. El momento favorito siempre es el mismo: cuando el cliente ve por primera vez sus kilovatios en la app."</p>
+      <div class="guion-sep"></div>
+      <p><span class="cta">"Hacemos esto en toda España. ¿Tu tejado es el siguiente? Escríbenos y te hacemos el estudio gratis."</span></p>
+    </div>
+
+    <div class="section-h">Descripción de la publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Texto para TikTok / Instagram</div>
+      <div class="desc-text">Este es un día normal en Yosol ☀️
+
+De las 7 de la mañana cargando la furgoneta, a las 5 de la tarde viendo cómo una familia de Valencia genera su primera electricidad gratis.
+
+Eso es lo que nos levanta cada día.
+
+💬 ¿De dónde sois? ¿Hay posibilidad de que instalemos cerca de vosotros?
+
+🔗 Presupuesto gratuito: link en bio</div>
+      <div class="desc-tags">#UnDíaEnYosol #EquipoYosol #EnergíaSolar #Valencia #Fotovoltaica #BehindTheScenes #Instaladores #YosolInstalaciones</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 13 — CARRUSEL: Story interactivo / CTA presupuesto
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="carousel">
+  <div class="card-header">
+    <div class="card-num">#13</div>
+    <div class="card-meta">
+      <div class="card-title">¿Cuánto pagas de luz? Te calculamos tu ahorro con solar en 24 horas</div>
+      <div class="card-tags">
+        <span class="tag tag-format-carousel">🟧 Carrusel de conversión</span>
+        <span class="tag tag-ch-ig">📸 Instagram</span>
+        <span class="tag tag-pillar">💰 Pilar: Ahorro / Conversión</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;responden con su consumo mensual</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;lo mandan a quien también tiene facturas altas</div>
+    <div class="eng-target"><span>❤️</span><strong>Like:</span>&nbsp;hook de propuesta de valor directa</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia:</strong> Este carrusel es el post de mayor conversión directa. El objetivo no es el guardado ni el compartido — es el COMENTARIO y el DM. Al pedir que comenten su factura, se activa la conversación y el algoritmo de Instagram, y Yosol puede responder a cada comentario con un cálculo personalizado, generando leads cualificados.</div>
+
+    <div class="section-h">Estructura de slides (6 slides)</div>
+    <div class="slides-track">
+      <div class="slide bg-sun-warm">
+        <div class="slide-num">PORTADA</div>
+        <div class="slide-text">¿Cuánto pagas de luz al mes? Dinos el número y te calculamos cuánto puedes ahorrar con solar.</div>
+        <div class="slide-subtext">→ Gratis · Sin compromiso · En 24h</div>
+      </div>
+      <div class="slide bg-white-clean">
+        <div class="slide-num">SLIDE 2</div>
+        <div class="slide-role">Cómo funciona</div>
+        <div class="slide-text">1. Dinos tu consumo mensual en comentarios 2. Te hacemos el cálculo personalizado 3. Si te interesa, te damos presupuesto detallado</div>
+      </div>
+      <div class="slide bg-sky-light">
+        <div class="slide-num">SLIDE 3</div>
+        <div class="slide-role">Si pagas 80€/mes</div>
+        <div class="slide-text">Instalación ~5.000€ · Ahorro 840€/año · Amortización 6 años · Beneficio en 25 años: 16.000€</div>
+      </div>
+      <div class="slide bg-sun-light">
+        <div class="slide-num">SLIDE 4</div>
+        <div class="slide-role">Si pagas 150€/mes</div>
+        <div class="slide-text">Instalación ~7.000€ · Ahorro 1.500€/año · Amortización 4,7 años · Beneficio en 25 años: 30.000€</div>
+      </div>
+      <div class="slide bg-soft-green">
+        <div class="slide-num">SLIDE 5</div>
+        <div class="slide-role">Si pagas 250€/mes</div>
+        <div class="slide-text">Instalación ~11.000€ · Ahorro 2.500€/año · Amortización 4,4 años · Beneficio en 25 años: 51.000€</div>
+      </div>
+      <div class="slide bg-dark-text">
+        <div class="slide-num">SLIDE 6 (CTA)</div>
+        <div class="slide-text">💬 Escribe abajo cuánto pagas y te calculamos el tuyo gratis. ¿Estás preparado para dejar de pagar por la luz?</div>
+        <div class="slide-cta">→ Comenta aquí o escríbenos al WhatsApp</div>
+      </div>
+    </div>
+
+    <div class="section-h">Descripción de la publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Texto para Instagram</div>
+      <div class="desc-text">¿Cuánto pagas de luz al mes? 💡
+
+Dinos el número en los comentarios y te calculamos GRATIS cuánto podrías ahorrar instalando solar en tu vivienda o empresa.
+
+Sin formularios. Sin esperas. En 24 horas tienes tu cálculo personalizado.
+
+📊 En el carrusel te mostramos 3 ejemplos reales por franjas de consumo.
+
+👇 Escribe tu factura media mensual aquí abajo. Respondemos a todos.</div>
+      <div class="desc-tags">#AhorroEnLuz #EnergíaSolar #Valencia #PanelesSolares #Fotovoltaica #PresupuestoGratis #YosolInstalaciones #FacturaLuz</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 14 — REELS: TikTok "¿Tu compañía ofrece batería virtual?"
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="reels">
+  <div class="card-header">
+    <div class="card-num">#14</div>
+    <div class="card-meta">
+      <div class="card-title">Líneas de vida en tejados: lo que la ley obliga y casi nadie sabe</div>
+      <div class="card-tags">
+        <span class="tag tag-format-reels">🎬 TikTok</span>
+        <span class="tag tag-ch-tk">🎵 TikTok</span>
+        <span class="tag tag-ch-ig">📸 Instagram</span>
+        <span class="tag tag-pillar">🎓 Pilar: Educa</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;empresas y comunidades que no lo sabían</div>
+    <div class="eng-target"><span>🔖</span><strong>Guardado:</strong>&nbsp;para consultar el reglamento</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;"¿mi edificio necesita esto?"</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia:</strong> El contenido "esto es obligatorio y no lo sabías" genera altas tasas de compartido porque la gente siente urgencia de avisar a otros. Además posiciona a Yosol como experto en seguridad, diferenciando del instalador solar genérico.</div>
+
+    <div class="section-h">Formato técnico</div>
+    <div class="reel-structure">
+      <div class="reel-meta-box"><div class="reel-meta-label">Duración</div><div class="reel-meta-value">45–55 segundos</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Formato</div><div class="reel-meta-value">Técnico a cámara en tejado o texto + imágenes de instalación real</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Tono</div><div class="reel-meta-value">Informativo, sin alarmismo. "Esto es importante que sepas."</div></div>
+      <div class="reel-meta-box"><div class="reel-meta-label">Visual</div><div class="reel-meta-value">Imágenes de líneas de vida instaladas en tejados industriales y residenciales</div></div>
+    </div>
+
+    <div class="section-h">Guion técnico — Escenas</div>
+    <div class="scenes-list">
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>1<br>0–4s</div>
+        <div class="scene-body">
+          <div class="scene-time">HOOK — 0:00 a 0:04</div>
+          <div class="scene-what">Técnico en tejado o texto impactante sobre imagen de tejado industrial</div>
+          <div class="scene-how">Plano desde arriba si es posible. Vértigo visual que llama la atención.</div>
+          <div class="scene-text-overlay">TEXTO: "¿Sabes que hay tejados en España que son ilegales sin esto? 👇"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>2<br>4–20s</div>
+        <div class="scene-body">
+          <div class="scene-time">EXPLICACIÓN — 0:04 a 0:20</div>
+          <div class="scene-what">Mostrar qué es una línea de vida (cable de seguridad en tejado)</div>
+          <div class="scene-how">Plano de la línea de vida instalada. Técnico explica señalando los elementos.</div>
+          <div class="scene-text-overlay">VOZ: "Esto es una línea de vida certificada. Es el sistema de seguridad que permite trabajar en altura en un tejado sin riesgo de caída. Y hay una ley que obliga a instalarlo."</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>3<br>20–38s</div>
+        <div class="scene-body">
+          <div class="scene-time">LA LEY — 0:20 a 0:38</div>
+          <div class="scene-what">Texto en pantalla con los casos en que es obligatorio</div>
+          <div class="scene-how">Fondo limpio. Texto grande y claro. Aparece en lista.</div>
+          <div class="scene-text-overlay">TEXTO: "Es OBLIGATORIA si: ✅ El tejado tiene pendiente y altura ✅ Se realizan trabajos de mantenimiento periódico ✅ Hay instalaciones en cubierta (solar, HVAC, antenas) ✅ Es un edificio de uso público o industrial"</div>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="scene-marker">ESCENA<br>4<br>38–55s</div>
+        <div class="scene-body">
+          <div class="scene-time">CTA — 0:38 a 0:55</div>
+          <div class="scene-what">Técnico o texto de cierre. Imagen de instalación correctamente equipada.</div>
+          <div class="scene-how">Tono de solución, no de amenaza. "Te ayudamos a estar al día."</div>
+          <div class="scene-text-overlay">TEXTO: "En Yosol instalamos líneas de vida certificadas y nos encargamos de todos los trámites. 💬 ¿Tienes tejado en tu empresa o edificio? Pregúntanos si necesitas una."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-h">Guion de voz</div>
+    <div class="guion-box">
+      <div class="g-label">🎙 Guion narrado</div>
+      <p><span class="hook">"¿Sabías que en España hay miles de tejados industriales y residenciales que están incumpliendo la normativa de seguridad en altura? Si en tu cubierta hay instalaciones o se realizan trabajos de mantenimiento, puede que necesites una línea de vida certificada y no lo sepas."</span></p>
+      <div class="guion-sep"></div>
+      <p class="dev">"La normativa obliga a instalar sistemas de protección colectiva cuando el tejado tiene inclinación, hay riesgo de caída o se realizan trabajos periódicos. Y cuando instalamos paneles solares, somos nosotros los que tenemos que verificar que el tejado tiene las medidas de seguridad necesarias."</p>
+      <div class="guion-sep"></div>
+      <p><span class="cta">"En Yosol instalamos líneas de vida certificadas y gestionamos toda la documentación técnica. Si tienes dudas sobre tu edificio, escríbenos. Es mejor saberlo antes que después."</span></p>
+    </div>
+
+    <div class="section-h">Descripción de la publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Texto para TikTok / Instagram</div>
+      <div class="desc-text">Hay tejados en España que son ilegales sin esto ⚠️
+
+Si en tu edificio, nave o vivienda se hacen trabajos en cubierta (mantenimiento, solar, antenas...) es probable que necesites una línea de vida certificada.
+
+No es opcional. Es ley.
+
+En Yosol la instalamos y gestionamos toda la documentación técnica.
+
+💬 ¿Tienes tejado industrial o comunidad de vecinos? Pregúntanos si necesitas una — es gratis la consulta.
+
+🔗 Link en bio para más info.</div>
+      <div class="desc-tags">#LíneasDeVida #SeguridadEnAltura #NormativaEspañola #Valencia #EnergíaSolar #YosolInstalaciones #Tejados #Fotovoltaica</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════
+     IDEA 15 — LINKEDIN: Impacto medioambiental Yosol
+════════════════════════════════════════════════════ -->
+<div class="content-card" data-type="linkedin">
+  <div class="card-header">
+    <div class="card-num">#15</div>
+    <div class="card-meta">
+      <div class="card-title">300 proyectos. 3.000 kW instalados. Esto es lo que hemos evitado emitir.</div>
+      <div class="card-tags">
+        <span class="tag tag-format-linkedin">💼 LinkedIn</span>
+        <span class="tag tag-pillar">🌍 Pilar: Sostenibilidad</span>
+      </div>
+    </div>
+  </div>
+  <div class="eng-targets">
+    <div class="eng-target"><span>❤️</span><strong>Like:</span>&nbsp;orgullo colectivo y valores compartidos</div>
+    <div class="eng-target"><span>↗️</span><strong>Compartido:</strong>&nbsp;el equipo y los clientes lo comparten con orgullo</div>
+    <div class="eng-target"><span>💬</span><strong>Comentario:</strong>&nbsp;felicitaciones y nuevos contactos</div>
+  </div>
+  <div class="card-body">
+    <div class="strategy-note"><strong>Estrategia LinkedIn:</strong> Los posts de impacto y logros de empresa tienen altísima tasa de interacción en LinkedIn porque activan el orgullo colectivo. El equipo los comparte, los clientes los comentan, y la red de contactos los ve. Además refuerza el posicionamiento de marca ante potenciales inversores, clientes corporativos y talento.</div>
+
+    <div class="section-h">Post completo de LinkedIn</div>
+    <div class="linkedin-post">
+      <div class="li-profile">
+        <div class="li-avatar">☀</div>
+        <div>
+          <div class="li-name">Yosol Instalaciones</div>
+          <div class="li-role">Instalaciones fotovoltaicas · Aldaia, Valencia</div>
+        </div>
+      </div>
+      <div class="li-body"><span class="li-hook">Hemos instalado 3.000 kW de energía solar en 300 proyectos. Hoy paramos un momento para contar lo que eso significa en términos reales.</span>
+
+No en kilovatios. En impacto.
+
+——
+
+☀️ LO QUE 3.000 kW SIGNIFICAN:
+
+→ 3.690.000 kWh producidos al año por todas las instalaciones
+→ 1.845 toneladas de CO₂ evitadas cada año
+→ Equivalente a plantar 84.000 árboles
+→ Equivalente a sacar de circulación 797 coches durante un año
+→ Familias con factura de luz a 0€: más de 200
+→ Empresas que redujeron su huella de carbono: 90+
+
+——
+
+Y esto es solo el primer año completo de producción.
+
+En 25 años, con las instalaciones actuales ya en funcionamiento, habremos evitado emitir más de 46.000 toneladas de CO₂.
+
+——
+
+Empezamos en Aldaia (Valencia) con la convicción de que la energía solar iba a transformar la forma en que las familias y empresas gestionan su electricidad.
+
+No estábamos equivocados.
+
+——
+
+Gracias a cada cliente que confió en nosotros, a cada técnico que subió a un tejado con calor de 40 grados, y a cada persona del equipo que gestionó trámites, presupuestos y llamadas.
+
+Esto es vuestro tanto como nuestro.
+
+<span class="li-cta">Si quieres ser parte del siguiente hito — 1.000 proyectos y 10.000 kW — escríbenos. El sol en Valencia no descansa. Nosotros tampoco.</span>
+
+¿Cuántos de vosotros habéis instalado solar o estáis pensando en hacerlo? 👇</div>
+      <div class="li-hashtags">#ImpactoMedioambiental #EnergíaSolar #Valencia #Sostenibilidad #Fotovoltaica #CO2 #EnergíaRenovable #Autoconsumo #YosolInstalaciones #Milestone</div>
+      <div class="li-reactions">👍 Like · 💬 Comentar · ↗️ Compartir</div>
+    </div>
+
+    <div class="section-h">Notas de publicación</div>
+    <div class="desc-box">
+      <div class="desc-label">📋 Instrucciones para publicar</div>
+      <div class="desc-text">• Publicar un lunes o martes (post de inicio de semana con carga motivacional)
+• Imagen: infografía con los datos de impacto (toneladas CO₂, árboles equivalentes, familias beneficiadas). Usar colores de marca Yosol.
+• Etiquetar al equipo en el post (dispara el alcance orgánico inmediatamente)
+• Pedir al equipo que compartan desde sus perfiles personales el mismo día
+• Responder cada "enhorabuena" con una respuesta personalizada para mantener el engagement vivo 48h</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ FOOTER ══ -->
+<div style="margin-top:64px;text-align:center;font-size:13px;color:var(--muted);padding:24px 0;border-top:1px solid var(--border);">
+  Biblioteca de Contenido para <strong>Yosol Instalaciones</strong> · Aldaia, Valencia · 
+  <a href="https://yosol.es" style="color:var(--sky);text-decoration:none">yosol.es</a> · 
+  Tono: profesional pero accesible · 15 contenidos · 3 formatos
+</div>
+
+</div><!-- end wrapper -->
+
+<script>
+function filterCards(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const cards = document.querySelectorAll('.content-card');
+  let visible = 0;
+  cards.forEach(card => {
+    if (type === 'all' || card.dataset.type === type) {
+      card.style.display = '';
+      visible++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  const labels = {
+    'all': `Mostrando ${visible} de 15`,
+    'carousel': `Mostrando ${visible} carruseles`,
+    'reels': `Mostrando ${visible} Reels / TikToks`,
+    'linkedin': `Mostrando ${visible} posts de LinkedIn`
+  };
+  document.getElementById('counter').textContent = labels[type] || `${visible} resultados`;
+}
+</script>
+</body>
+</html>
